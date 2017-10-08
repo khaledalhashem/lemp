@@ -12,12 +12,15 @@ yum install -y perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2
 # change directory to source building directory
 cd /usr/local/src
 
-# wget latest nginx stable source
+# Nginx version 1.12.1
 wget http://nginx.org/download/nginx-1.12.1.tar.gz && tar -zxf nginx-1.12.1.tar.gz && rm -rf nginx-1.12.1.tar.gz
 
-cd /usr/local/src/nginx-1.12.1/src/http/modules
+cd nginx-1.12.1/src/http/modules
+# pagespeed version 1.12.34.2
 wget https://github.com/pagespeed/ngx_pagespeed/archive/v1.12.34.2-stable.tar.gz && tar -zxf v1.12.34.2-stable.tar.gz && rm -rf v1.12.34.2-stable.tar.gz
+
 cd ngx_pagespeed-1.12.34.2-stable/
+# psol version 1.12.34.2
 wget https://dl.google.com/dl/page-speed/psol/1.12.34.2-x64.tar.gz && tar -zxf 1.12.34.2-x64.tar.gz && rm -rf 1.12.34.2-x64.tar.gz
 
 cd /usr/local/src/nginx-1.12.1/src/http/modules
@@ -93,13 +96,29 @@ cd /usr/local/src/nginx-1.12.1
 make
 make install
 
-ln -s /usr/lib64/nginx/modules /etc/nginx/modules
+sudo ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
+
+cd /etc/nginx
+wget https://github.com/khaledalhashem/ngx_pagespeed/raw/master/nginx.conf
 
 cd /usr/lib/systemd/system/
 wget https://raw.githubusercontent.com/khaledalhashem/ngx_pagespeed/master/nginx.service
 
+mkdir -p /var/cache/nginx && nginx -t
+
 systemctl start nginx.service && sudo systemctl enable nginx.service
+
+rm /etc/nginx/koi-utf /etc/nginx/koi-win /etc/nginx/win-utf
+
+rm /etc/nginx/*.default
+
+mkdir -p /var/ngx_pagespeed_cache
+chown -R nobody:nobody /var/ngx_pagespeed_cache
+
+systemctl restart nginx
+
+nginx -V
 
 cd
