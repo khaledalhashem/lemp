@@ -17,10 +17,10 @@ wget http://nginx.org/download/nginx-1.12.1.tar.gz && tar -zxf nginx-1.12.1.tar.
 
 cd nginx-1.12.1/src/http/modules
 wget https://github.com/pagespeed/ngx_pagespeed/archive/v1.12.34.2-stable.tar.gz && tar -zxf v1.12.34.2-stable.tar.gz && rm -rf v1.12.34.2-stable.tar.gz
-cd v1.12.34.2-stable/
+cd ngx_pagespeed-1.12.34.2-stable/
 wget https://dl.google.com/dl/page-speed/psol/1.12.34.2-x64.tar.gz && tar -zxf 1.12.34.2-x64.tar.gz && rm -rf 1.12.34.2-x64.tar.gz
 
-cd /usr/local/src/nginx-1.12.1/
+cd ..
 
 # PCRE version 8.40
 wget https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz && tar xzf pcre-8.40.tar.gz
@@ -48,7 +48,7 @@ rm -rf *.gz
             --with-poll_module \
             --with-threads \
             --with-file-aio \
-	    --add-module=/usr/local/src/nginx-1.12.1/src/http/modules/nginx_custom/ngx_pagespeed-1.12.34.2-stabl
+	    --add-module=/usr/local/src/nginx-1.12.1/src/http/modules/ngx_pagespeed-1.12.34.2-stable
             --with-http_ssl_module \
             --with-http_v2_module \
             --with-http_realip_module \
@@ -82,7 +82,7 @@ rm -rf *.gz
             --with-stream_geoip_module=dynamic \
             --with-stream_ssl_preread_module \
             --with-compat \
-            --with-pcre=src/http/modules/pcre-8.40 \
+            --with-pcre=/usr/local/nginx-1.12.1/src/http/modules/pcre-8.40 \
             --with-pcre-jit \
             --with-zlib=/usr/local/src/nginx-1.12.1/src/http/modules/zlib-1.2.11 \
             --with-openssl=/usr/local/src/nginx-1.12.1/src/http/modules/openssl-1.1.0f \
