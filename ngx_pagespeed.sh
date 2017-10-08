@@ -103,8 +103,11 @@ useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx 
 cd /etc/nginx
 wget https://github.com/khaledalhashem/ngx_pagespeed/raw/master/nginx.conf
 
-cd /usr/lib/systemd/system/
-wget https://raw.githubusercontent.com/khaledalhashem/ngx_pagespeed/master/nginx.service
+#cd /usr/lib/systemd/system/
+#wget https://raw.githubusercontent.com/khaledalhashem/ngx_pagespeed/master/nginx.service
+
+cd /etc/init.d/
+wget 
 
 mkdir -p /var/cache/nginx && nginx -t
 
