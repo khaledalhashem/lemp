@@ -100,3 +100,5 @@ cd /usr/lib/systemd/system/
 wget https://raw.githubusercontent.com/khaledalhashem/ngx_pagespeed/master/nginx.service
 
 systemctl start nginx.service && sudo systemctl enable nginx.service
+
+cd
