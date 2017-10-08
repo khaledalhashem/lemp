@@ -95,3 +95,8 @@ make install
 ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
+
+cd /usr/lib/systemd/system/
+wget https://raw.githubusercontent.com/khaledalhashem/ngx_pagespeed/master/nginx.service
+
+systemctl start nginx.service && sudo systemctl enable nginx.service
