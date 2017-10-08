@@ -23,13 +23,13 @@ wget https://dl.google.com/dl/page-speed/psol/1.12.34.2-x64.tar.gz && tar -zxf 1
 cd /usr/local/src/nginx-1.12.1/
 
 # PCRE version 8.40
-wget https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz && tar xzvf pcre-8.40.tar.gz
+wget https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz && tar xzf pcre-8.40.tar.gz
 
 # zlib version 1.2.11
-wget https://www.zlib.net/zlib-1.2.11.tar.gz && tar xzvf zlib-1.2.11.tar.gz
+wget https://www.zlib.net/zlib-1.2.11.tar.gz && tar xzf zlib-1.2.11.tar.gz
 
 # OpenSSL version 1.1.0f
-wget https://www.openssl.org/source/openssl-1.1.0f.tar.gz && tar xzvf openssl-1.1.0f.tar.gz
+wget https://www.openssl.org/source/openssl-1.1.0f.tar.gz && tar xzf openssl-1.1.0f.tar.gz
 
 rm -rf *.gz
 
@@ -92,6 +92,6 @@ rm -rf *.gz
 make
 make install
 
-sudo ln -s /usr/lib64/nginx/modules /etc/nginx/modules
+ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
