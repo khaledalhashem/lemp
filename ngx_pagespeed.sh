@@ -5,9 +5,9 @@
 #
 ####################################
 
-#yum groupinstall -y 'Development Tools'
-#yum install -y epel-release
-#yum install -y perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel
+yum groupinstall -y 'Development Tools'
+yum install -y epel-release
+yum install -y perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel
 
 # change directory to source building directory
 cd /usr/local/src
