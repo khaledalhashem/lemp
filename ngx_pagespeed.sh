@@ -48,7 +48,7 @@ rm -rf *.gz
             --with-poll_module \
             --with-threads \
             --with-file-aio \
-	    --add-module=src/http/modules/nginx_custom/ngx_pagespeed-1.12.34.2-stabl
+	    --add-module=/usr/local/src/nginx-1.12.1/src/http/modules/nginx_custom/ngx_pagespeed-1.12.34.2-stabl
             --with-http_ssl_module \
             --with-http_v2_module \
             --with-http_realip_module \
@@ -84,8 +84,8 @@ rm -rf *.gz
             --with-compat \
             --with-pcre=src/http/modules/pcre-8.40 \
             --with-pcre-jit \
-            --with-zlib=src/http/modules/zlib-1.2.11 \
-            --with-openssl=src/http/modules/openssl-1.1.0f \
+            --with-zlib=/usr/local/src/nginx-1.12.1/src/http/modules/zlib-1.2.11 \
+            --with-openssl=/usr/local/src/nginx-1.12.1/src/http/modules/openssl-1.1.0f \
             --with-openssl-opt=no-nextprotoneg \
             --with-debug
 
