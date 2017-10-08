@@ -101,6 +101,7 @@ sudo ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
 
 cd /etc/nginx
+mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
 wget https://github.com/khaledalhashem/ngx_pagespeed/raw/master/nginx.conf
 
 #cd /usr/lib/systemd/system/
