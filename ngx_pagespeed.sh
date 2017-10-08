@@ -20,7 +20,7 @@ wget https://github.com/pagespeed/ngx_pagespeed/archive/v1.12.34.2-stable.tar.gz
 cd ngx_pagespeed-1.12.34.2-stable/
 wget https://dl.google.com/dl/page-speed/psol/1.12.34.2-x64.tar.gz && tar -zxf 1.12.34.2-x64.tar.gz && rm -rf 1.12.34.2-x64.tar.gz
 
-cd ..
+cd /usr/local/src/nginx-1.12.1
 
 # PCRE version 8.40
 wget https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz && tar xzf pcre-8.40.tar.gz
@@ -32,6 +32,8 @@ wget https://www.zlib.net/zlib-1.2.11.tar.gz && tar xzf zlib-1.2.11.tar.gz
 wget https://www.openssl.org/source/openssl-1.1.0f.tar.gz && tar xzf openssl-1.1.0f.tar.gz
 
 rm -rf *.gz
+
+cd /usr/local/src/nginx-1.12.1
 
 ./configure --prefix=/etc/nginx \
             --sbin-path=/usr/sbin/nginx \
@@ -48,7 +50,7 @@ rm -rf *.gz
             --with-poll_module \
             --with-threads \
             --with-file-aio \
-	    --add-module=/usr/local/src/nginx-1.12.1/src/http/modules/ngx_pagespeed-1.12.34.2-stable
+	    --add-module=/usr/local/src/nginx-1.12.1/src/http/modules/ngx_pagespeed-1.12.34.2-stable \
             --with-http_ssl_module \
             --with-http_v2_module \
             --with-http_realip_module \
@@ -86,8 +88,7 @@ rm -rf *.gz
             --with-pcre-jit \
             --with-zlib=/usr/local/src/nginx-1.12.1/src/http/modules/zlib-1.2.11 \
             --with-openssl=/usr/local/src/nginx-1.12.1/src/http/modules/openssl-1.1.0f \
-            --with-openssl-opt=no-nextprotoneg \
-            --with-debug
+            --with-openssl-opt=no-nextprotoneg
 
 make
 make install
