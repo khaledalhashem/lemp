@@ -106,8 +106,9 @@ wget https://github.com/khaledalhashem/ngx_pagespeed/raw/master/nginx.conf
 #cd /usr/lib/systemd/system/
 #wget https://raw.githubusercontent.com/khaledalhashem/ngx_pagespeed/master/nginx.service
 
-cd /etc/init.d/
-wget 
+cd /etc/init.d
+wget https://github.com/khaledalhashem/ngx_pagespeed/raw/master/nginx
+chmod +x /etc/init.d/nginx
 
 mkdir -p /var/cache/nginx && nginx -t
 
