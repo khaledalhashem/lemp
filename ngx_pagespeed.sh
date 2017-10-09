@@ -5,17 +5,39 @@
 #
 ####################################
 
+
+# Maintainer:  Khaled AlHashem <kalhashem@naur.us>
+
+pkgname='ngx_pagespeed'
+srcdir='/usr/local/src'
+ngxver='nginx-1.12.1'
+pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, mainline release'
+arch=('i686' 'x86_64')
+url='https://nginx.org'
+license=('custom')
+depends=('pcre' 'zlib' 'geoip' 'openssl')
+backup=('etc/nginx/fastcgi.conf'
+        'etc/nginx/fastcgi_params'
+        'etc/nginx/koi-win'
+        'etc/nginx/koi-utf'
+        'etc/nginx/mime.types'
+        'etc/nginx/nginx.conf'
+        'etc/nginx/scgi_params'
+        'etc/nginx/uwsgi_params'
+        'etc/nginx/win-utf'
+	'etc/logrotate.d/nginx')
+
 yum groupinstall -y 'Development Tools'
 yum install -y epel-release
 yum install -y perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel
 
 # change directory to source building directory
-cd /usr/local/src
+cd $srcdir
 
 # Nginx version 1.12.1
-wget http://nginx.org/download/nginx-1.12.1.tar.gz && tar -zxf nginx-1.12.1.tar.gz && rm -rf nginx-1.12.1.tar.gz
+wget http://nginx.org/download/$ngxver.tar.gz && tar -zxf $ngxver.tar.gz && rm -rf $ngxver.tar.gz
 
-cd nginx-1.12.1/src/http/modules
+cd $ngxver/src/http/modules
 # pagespeed version 1.12.34.2
 wget https://github.com/pagespeed/ngx_pagespeed/archive/v1.12.34.2-stable.tar.gz && tar -zxf v1.12.34.2-stable.tar.gz && rm -rf v1.12.34.2-stable.tar.gz
 
@@ -36,7 +58,7 @@ wget https://www.openssl.org/source/openssl-1.1.0f.tar.gz && tar xzf openssl-1.1
 
 rm -rf *.gz
 
-cd /usr/local/src/nginx-1.12.1
+cd $srcdir/$ngxver
 
 ./configure --prefix=/etc/nginx \
             --sbin-path=/usr/sbin/nginx \
@@ -113,7 +135,7 @@ chmod +x /etc/init.d/nginx
 
 mkdir -p /var/cache/nginx && nginx -t
 
-systemctl start nginx.service && sudo systemctl enable nginx.service
+systemctl start nginx.service && systemctl enable nginx.service
 
 rm /etc/nginx/koi-utf /etc/nginx/koi-win /etc/nginx/win-utf
 
@@ -124,6 +146,15 @@ chown -R nobody:nobody /var/ngx_pagespeed_cache
 
 systemctl restart nginx
 
+mkdir ~/.vim/
+cp -r $srcdir/$ngxver/contrib/vim/* ~/.vim/
+
 nginx -V
 
 cd
+
+rpm -Uvh http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+yum -y install yum-utils
+
+yum-config-manager --enable remi-php71
+yum -y install php php-fpm php-opcache
