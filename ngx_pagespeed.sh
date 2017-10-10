@@ -7,6 +7,7 @@
 
 
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
+# Version: 0.1
 
 pkgname='ngx_pagespeed'
 srcdir='/usr/local/src'
@@ -16,16 +17,6 @@ arch=('i686' 'x86_64')
 url='https://nginx.org'
 license=('custom')
 depends=('pcre' 'zlib' 'geoip' 'openssl')
-backup=('etc/nginx/fastcgi.conf'
-        'etc/nginx/fastcgi_params'
-        'etc/nginx/koi-win'
-        'etc/nginx/koi-utf'
-        'etc/nginx/mime.types'
-        'etc/nginx/nginx.conf'
-        'etc/nginx/scgi_params'
-        'etc/nginx/uwsgi_params'
-        'etc/nginx/win-utf'
-	'etc/logrotate.d/nginx')
 
 yum groupinstall -y 'Development Tools'
 yum install -y epel-release
