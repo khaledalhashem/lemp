@@ -7,12 +7,12 @@
 
 
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
-# Version: 0.1
+# Version: 0.11
 
-pkgname='ngx_pagespeed'
-srcdir='/usr/local/src'
+pkgname='nginx_custom'
+srcdir='/usr/local/src/nginx'
 ngxver='nginx-1.12.1'
-pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, mainline release'
+pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
 url='https://nginx.org'
 license=('custom')
@@ -22,13 +22,12 @@ yum groupinstall -y 'Development Tools'
 yum install -y epel-release
 yum install -y perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel
 
-# change directory to source building directory
-cd $srcdir
+# Create the source building directory and cd into it
+mkdir $srcdir && cd $srcdir
 
 # Nginx version 1.12.1
 wget http://nginx.org/download/$ngxver.tar.gz && tar -zxf $ngxver.tar.gz && rm -rf $ngxver.tar.gz
 
-cd $ngxver/src/http/modules
 # pagespeed version 1.12.34.2
 wget https://github.com/pagespeed/ngx_pagespeed/archive/v1.12.34.2-stable.tar.gz && tar -zxf v1.12.34.2-stable.tar.gz && rm -rf v1.12.34.2-stable.tar.gz
 
@@ -36,7 +35,7 @@ cd ngx_pagespeed-1.12.34.2-stable/
 # psol version 1.12.34.2
 wget https://dl.google.com/dl/page-speed/psol/1.12.34.2-x64.tar.gz && tar -zxf 1.12.34.2-x64.tar.gz && rm -rf 1.12.34.2-x64.tar.gz
 
-cd /usr/local/src/nginx-1.12.1/src/http/modules
+cd $srcdir
 
 # PCRE version 8.40
 wget https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz && tar xzf pcre-8.40.tar.gz
@@ -66,7 +65,7 @@ cd $srcdir/$ngxver
             --with-poll_module \
             --with-threads \
             --with-file-aio \
-	    --add-module=/usr/local/src/nginx-1.12.1/src/http/modules/ngx_pagespeed-1.12.34.2-stable \
+	    --add-module=../ngx_pagespeed-1.12.34.2-stable \
             --with-http_ssl_module \
             --with-http_v2_module \
             --with-http_realip_module \
@@ -100,10 +99,10 @@ cd $srcdir/$ngxver
             --with-stream_geoip_module=dynamic \
             --with-stream_ssl_preread_module \
             --with-compat \
-            --with-pcre=/usr/local/src/nginx-1.12.1/src/http/modules/pcre-8.40 \
+            --with-pcre=../modules/pcre-8.40 \
             --with-pcre-jit \
-            --with-zlib=/usr/local/src/nginx-1.12.1/src/http/modules/zlib-1.2.11 \
-            --with-openssl=/usr/local/src/nginx-1.12.1/src/http/modules/openssl-1.1.0f \
+            --with-zlib=../zlib-1.2.11 \
+            --with-openssl=../openssl-1.1.0f \
             --with-openssl-opt=no-nextprotoneg
 
 make
@@ -115,13 +114,13 @@ useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx 
 
 cd /etc/nginx
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
-wget https://github.com/khaledalhashem/ngx_pagespeed/raw/master/nginx.conf
+wget https://github.com/khaledalhashem/nginx_custom/raw/master/nginx.conf
 
 cd /usr/lib/systemd/system/
-wget https://raw.githubusercontent.com/khaledalhashem/ngx_pagespeed/master/nginx.service
+wget https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx.service
 
 cd /etc/init.d
-wget https://github.com/khaledalhashem/ngx_pagespeed/raw/master/nginx
+wget https://github.com/khaledalhashem/nginx_custom/raw/master/nginx
 chmod +x /etc/init.d/nginx
 
 mkdir -p /var/cache/nginx && nginx -t
