@@ -46,6 +46,9 @@ wget https://www.zlib.net/zlib-1.2.11.tar.gz && tar xzf zlib-1.2.11.tar.gz
 # OpenSSL version 1.1.0f
 wget https://www.openssl.org/source/openssl-1.1.0f.tar.gz && tar xzf openssl-1.1.0f.tar.gz
 
+# ngx_fancyindex 0.4.2
+https://github.com/aperezdc/ngx-fancyindex/archive/v0.4.2.tar.gz
+
 rm -rf *.gz
 
 cd $srcdir/$ngxver
@@ -69,6 +72,7 @@ cd $srcdir/$ngxver
             --with-http_ssl_module \
             --with-http_v2_module \
             --with-http_realip_module \
+	    --add-dynamic-module=../ngx-fancyindex-0.4.0 \
             --with-http_addition_module \
             --with-http_xslt_module=dynamic \
             --with-http_image_filter_module=dynamic \
