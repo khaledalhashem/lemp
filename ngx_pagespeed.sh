@@ -99,7 +99,7 @@ cd $srcdir/$ngxver
             --with-stream_geoip_module=dynamic \
             --with-stream_ssl_preread_module \
             --with-compat \
-            --with-pcre=../modules/pcre-8.40 \
+            --with-pcre=../pcre-8.40 \
             --with-pcre-jit \
             --with-zlib=../zlib-1.2.11 \
             --with-openssl=../openssl-1.1.0f \
@@ -108,7 +108,7 @@ cd $srcdir/$ngxver
 make
 make install
 
-sudo ln -s /usr/lib64/nginx/modules /etc/nginx/modules
+ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
 
