@@ -7,7 +7,7 @@
 
 
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
-# Version: 0.11
+# Version: 0.12
 
 pkgname='nginx_custom'
 srcdir='/usr/local/src/nginx'
