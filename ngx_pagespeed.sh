@@ -16,7 +16,7 @@ pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
 url='https://nginx.org'
 license=('custom')
-depends=('pcre' 'zlib' 'geoip' 'openssl')
+depends=('pcre' 'zlib' 'geoip' 'openssl' 'fancyindex)
 
 yum groupinstall -y 'Development Tools'
 yum install -y epel-release
@@ -72,7 +72,7 @@ cd $srcdir/$ngxver
             --with-http_ssl_module \
             --with-http_v2_module \
             --with-http_realip_module \
-	    --add-dynamic-module=../ngx-fancyindex-0.4.0 \
+	    --add-dynamic-module=../ngx-fancyindex-0.4.2 \
             --with-http_addition_module \
             --with-http_xslt_module=dynamic \
             --with-http_image_filter_module=dynamic \
