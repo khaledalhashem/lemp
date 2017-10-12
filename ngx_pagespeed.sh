@@ -47,7 +47,7 @@ wget https://www.zlib.net/zlib-1.2.11.tar.gz && tar -xzf zlib-1.2.11.tar.gz
 wget https://www.openssl.org/source/openssl-1.1.0f.tar.gz && tar -xzf openssl-1.1.0f.tar.gz
 
 # ngx_fancyindex 0.4.2
-https://github.com/aperezdc/ngx-fancyindex/archive/v0.4.2.tar.gz && tar -zxf v0.4.2.tar.gz
+wget https://github.com/aperezdc/ngx-fancyindex/archive/v0.4.2.tar.gz && tar -zxf v0.4.2.tar.gz
 
 rm -rf *.gz
 
