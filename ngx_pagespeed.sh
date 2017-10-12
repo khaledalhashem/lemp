@@ -16,7 +16,7 @@ pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
 url='https://nginx.org'
 license=('custom')
-depends=('pcre' 'zlib' 'geoip' 'openssl' 'fancyindex)
+depends=('pcre' 'zlib' 'geoip' 'openssl' 'fancyindex')
 
 yum groupinstall -y 'Development Tools'
 yum install -y epel-release
