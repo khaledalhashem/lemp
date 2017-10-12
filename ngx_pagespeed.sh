@@ -38,16 +38,16 @@ wget https://dl.google.com/dl/page-speed/psol/1.12.34.2-x64.tar.gz && tar -zxf 1
 cd $srcdir
 
 # PCRE version 8.40
-wget https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz && tar xzf pcre-8.40.tar.gz
+wget https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz && tar -xzf pcre-8.40.tar.gz
 
 # zlib version 1.2.11
-wget https://www.zlib.net/zlib-1.2.11.tar.gz && tar xzf zlib-1.2.11.tar.gz
+wget https://www.zlib.net/zlib-1.2.11.tar.gz && tar -xzf zlib-1.2.11.tar.gz
 
 # OpenSSL version 1.1.0f
-wget https://www.openssl.org/source/openssl-1.1.0f.tar.gz && tar xzf openssl-1.1.0f.tar.gz
+wget https://www.openssl.org/source/openssl-1.1.0f.tar.gz && tar -xzf openssl-1.1.0f.tar.gz
 
 # ngx_fancyindex 0.4.2
-https://github.com/aperezdc/ngx-fancyindex/archive/v0.4.2.tar.gz
+https://github.com/aperezdc/ngx-fancyindex/archive/v0.4.2.tar.gz && tar -zxf v0.4.2.tar.gz
 
 rm -rf *.gz
 
