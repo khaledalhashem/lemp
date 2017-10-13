@@ -11,7 +11,11 @@
 
 pkgname='nginx_custom'
 srcdir='/usr/local/src/nginx'
+# [check nginx's site http://nginx.org/en/download.html for the latest version]
 ngxver='nginx-1.12.1'
+# [check https://www.modpagespeed.com/doc/release_notes for the latest version]
+nps='1.12.34.2-stable'
+nps_psol=${nps/stable/}
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
 url='https://nginx.org'
@@ -26,14 +30,14 @@ yum install -y perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2
 mkdir $srcdir && cd $srcdir
 
 # Nginx version 1.12.1
-wget http://nginx.org/download/$ngxver.tar.gz && tar -zxf $ngxver.tar.gz && rm -rf $ngxver.tar.gz
+wget http://nginx.org/download/$ngxver.tar.gz && tar -zxf $ngxver.tar.gz && rm -rf ${ngxver}.tar.gz
 
 # pagespeed version 1.12.34.2
-wget https://github.com/pagespeed/ngx_pagespeed/archive/v1.12.34.2-stable.tar.gz && tar -zxf v1.12.34.2-stable.tar.gz && rm -rf v1.12.34.2-stable.tar.gz
+wget https://github.com/pagespeed/ngx_pagespeed/archive/v{$nps}.tar.gz && tar -zxf v{$nps}.tar.gz && rm -rf v{$nps}.tar.gz
 
-cd ngx_pagespeed-1.12.34.2-stable/
+cd ngx_pagespeed-{$nps}/
 # psol version 1.12.34.2
-wget https://dl.google.com/dl/page-speed/psol/1.12.34.2-x64.tar.gz && tar -zxf 1.12.34.2-x64.tar.gz && rm -rf 1.12.34.2-x64.tar.gz
+wget https://dl.google.com/dl/page-speed/psol/{$nps_psol}-x64.tar.gz && tar -zxf {$nps_psol}-x64.tar.gz && rm -rf {$nps_psol}-x64.tar.gz
 
 cd $srcdir
 
