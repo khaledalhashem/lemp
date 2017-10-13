@@ -16,7 +16,7 @@ srcdir='/usr/local/src/nginx'
 ngxver='nginx-1.12.1'
 # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 nps='1.12.34.2-stable'
-nps_psol=$nps/stable/
+nps_psol='1.12.34.2'
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
 url='https://nginx.org'
