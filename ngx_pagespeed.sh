@@ -8,6 +8,7 @@
 
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
 # Version: 0.12
+# bash -x /ngx_pagespeed.sh 2>&1 | tee /nginx_custom.log
 
 pkgname='nginx_custom'
 srcdir='/usr/local/src/nginx'
@@ -15,7 +16,7 @@ srcdir='/usr/local/src/nginx'
 ngxver='nginx-1.12.1'
 # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 nps='1.12.34.2-stable'
-nps_psol=${nps/stable/}
+nps_psol=$nps/stable/
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
 url='https://nginx.org'
@@ -24,20 +25,20 @@ depends=('pcre' 'zlib' 'geoip' 'openssl' 'fancyindex')
 
 yum groupinstall -y 'Development Tools'
 yum install -y epel-release
-yum install -y perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel
+yum install -y wget perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel
 
 # Create the source building directory and cd into it
 mkdir $srcdir && cd $srcdir
 
 # Nginx version 1.12.1
-wget http://nginx.org/download/$ngxver.tar.gz && tar -zxf $ngxver.tar.gz && rm -rf ${ngxver}.tar.gz
+wget http://nginx.org/download/$ngxver.tar.gz && tar -zxf $ngxver.tar.gz && rm -rf $ngxver.tar.gz
 
 # pagespeed version 1.12.34.2
-wget https://github.com/pagespeed/ngx_pagespeed/archive/v{$nps}.tar.gz && tar -zxf v{$nps}.tar.gz && rm -rf v{$nps}.tar.gz
+wget https://github.com/pagespeed/ngx_pagespeed/archive/v$nps.tar.gz && tar -zxf v$nps.tar.gz && rm -rf v$nps.tar.gz
 
-cd ngx_pagespeed-{$nps}/
+cd ngx_pagespeed-$nps/
 # psol version 1.12.34.2
-wget https://dl.google.com/dl/page-speed/psol/{$nps_psol}-x64.tar.gz && tar -zxf {$nps_psol}-x64.tar.gz && rm -rf {$nps_psol}-x64.tar.gz
+wget https://dl.google.com/dl/page-speed/psol/$nps_psol-x64.tar.gz && tar -zxf $nps_psol-x64.tar.gz && rm -rf $nps_psol-x64.tar.gz
 
 cd $srcdir
 
