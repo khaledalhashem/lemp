@@ -1,14 +1,14 @@
 #!/bin/bash
 ####################################
 #
-# Auto ngx_pagespeed install
+# Auto nginx_custom install
 #
 ####################################
 
 
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
 # Version: 0.12
-# bash -x /ngx_pagespeed.sh 2>&1 | tee /nginx_custom.log
+# yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/ngx_pagespeed.sh && chmod 0700 ngx_pagespeed.sh && bash -x /ngx_pagespeed.sh 2>&1 | tee /nginx_custom.log
 
 pkgname='nginx_custom'
 srcdir='/usr/local/src/nginx'
@@ -24,35 +24,36 @@ license=('custom')
 depends=('pcre' 'zlib' 'geoip' 'openssl' 'fancyindex')
 
 yum groupinstall -y 'Development Tools'
-yum install -y epel-release
+yum --enablerepo=extras install -y epel-release
+yum --enablerepo=base clean metadata
 yum install -y wget perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel
 
 # Create the source building directory and cd into it
 mkdir $srcdir && cd $srcdir
 
 # Nginx version 1.12.1
-wget http://nginx.org/download/$ngxver.tar.gz && tar -zxf $ngxver.tar.gz && rm -rf $ngxver.tar.gz
+wget -c --no-check-certificate http://nginx.org/download/$ngxver.tar.gz --tries=3 && tar -zxf $ngxver.tar.gz && rm -rf $ngxver.tar.gz
 
 # pagespeed version 1.12.34.2
-wget https://github.com/pagespeed/ngx_pagespeed/archive/v$nps.tar.gz && tar -zxf v$nps.tar.gz && rm -rf v$nps.tar.gz
+wget -c --no-check-certificate https://github.com/pagespeed/ngx_pagespeed/archive/v$nps.tar.gz --tries=3 && tar -zxf v$nps.tar.gz && rm -rf v$nps.tar.gz
 
 cd ngx_pagespeed-$nps/
 # psol version 1.12.34.2
-wget https://dl.google.com/dl/page-speed/psol/$nps_psol-x64.tar.gz && tar -zxf $nps_psol-x64.tar.gz && rm -rf $nps_psol-x64.tar.gz
+wget -c --no-check-certificate https://dl.google.com/dl/page-speed/psol/$nps_psol-x64.tar.gz --tries=3 && tar -zxf $nps_psol-x64.tar.gz && rm -rf $nps_psol-x64.tar.gz
 
 cd $srcdir
 
 # PCRE version 8.40
-wget https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz && tar -xzf pcre-8.40.tar.gz
+wget -c --no-check-certificate https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz --tries=3 && tar -xzf pcre-8.40.tar.gz
 
 # zlib version 1.2.11
-wget https://www.zlib.net/zlib-1.2.11.tar.gz && tar -xzf zlib-1.2.11.tar.gz
+wget -c --no-check-certificate https://www.zlib.net/zlib-1.2.11.tar.gz --tries=3 && tar -xzf zlib-1.2.11.tar.gz
 
 # OpenSSL version 1.1.0f
-wget https://www.openssl.org/source/openssl-1.1.0f.tar.gz && tar -xzf openssl-1.1.0f.tar.gz
+wget -c --no-check-certificate https://www.openssl.org/source/openssl-1.1.0f.tar.gz --tries=3 && tar -xzf openssl-1.1.0f.tar.gz
 
 # ngx_fancyindex 0.4.2
-wget https://github.com/aperezdc/ngx-fancyindex/archive/v0.4.2.tar.gz && tar -zxf v0.4.2.tar.gz
+wget -c --no-check-certificate https://github.com/aperezdc/ngx-fancyindex/archive/v0.4.2.tar.gz --tries=3 && tar -zxf v0.4.2.tar.gz
 
 rm -rf *.gz
 
@@ -156,4 +157,4 @@ rpm -Uvh http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 yum -y install yum-utils
 
 yum-config-manager --enable remi-php71
-yum -y install php php-fpm php-opcache
+yum -y install --exclude=httpd php php-fpm php-opcache
