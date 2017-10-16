@@ -3,7 +3,8 @@ Automatically builds a custom nginx from source with pagespeed and other useful 
 
 Modules added so far.
 
-ngx_pagespeed
-pcre
-zlib
-openssl
+ngx_pagespeed 1.12.34.2-stable
+fancyindex 0.4.2
+pcre 8.40
+zlib 1.2.11
+openssl 1.1.0f
