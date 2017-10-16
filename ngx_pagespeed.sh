@@ -8,7 +8,7 @@
 
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
 # Version: 0.12
-# yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/ngx_pagespeed.sh && chmod 0700 ngx_pagespeed.sh && bash -x /ngx_pagespeed.sh 2>&1 | tee /nginx_custom.log
+# yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/ngx_pagespeed.sh && chmod 0700 ngx_pagespeed.sh && bash -x ngx_pagespeed.sh 2>&1 | tee nginx_custom.log
 
 pkgname='nginx_custom'
 srcdir='/usr/local/src/nginx'
