@@ -27,6 +27,7 @@ yum groupinstall -y 'Development Tools'
 yum --enablerepo=extras install -y epel-release
 yum --enablerepo=base clean metadata
 yum install -y wget perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel
+useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
 
 # Create the source building directory and cd into it
 mkdir $srcdir && cd $srcdir
@@ -118,8 +119,9 @@ cd $srcdir/$ngxver
 make
 make install
 
-ln -s /usr/local/nginx/conf/ /etc/nginx
-ln -s /usr/local/nginx/sbin/nginx /usr/sbin/nginx
+wget -O /usr/lib/systemd/system/nginx.service https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx.service --tries=3 && chmod +x /usr/lib/systemd/system/nginx.service
+
+wget -O /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx --tries=3 && chmod +x /etc/init.d/nginx && chmod +x /etc/init.d/nginx
 
 ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
@@ -128,10 +130,6 @@ useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx 
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx.conf --tries=3
 
 wget -O /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/dynamic-modules.conf --tries=3
-
-wget -O /usr/lib/systemd/system/nginx.service https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx.service --tries=3 && chmod +x /usr/lib/systemd/system/nginx.service
-
-wget -O /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx --tries=3 && chmod +x /etc/init.d/nginx && chmod +x /etc/init.d/nginx
 
 mkdir -p /var/cache/nginx && nginx -t
 
