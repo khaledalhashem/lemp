@@ -118,17 +118,20 @@ cd $srcdir/$ngxver
 make
 make install
 
+ln -s /usr/local/nginx/conf/ /etc/nginx
+ln -s /usr/local/nginx/sbin/nginx /usr/sbin/nginx
+
 ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
 
-cd /etc/nginx && mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && wget -c https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx.conf --tries=3
+mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx.conf --tries=3
 
-wget -c https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/dynamic-modules.conf --tries=3
+wget -O /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/dynamic-modules.conf --tries=3
 
-cd /usr/lib/systemd/system/ && wget -c https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx.service --tries=3
+wget -O /usr/lib/systemd/system/nginx.service https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx.service --tries=3 && chmod +x /usr/lib/systemd/system/nginx.service
 
-cd /etc/init.d && wget -c https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx --tries=3 && chmod +x /etc/init.d/nginx
+wget -O /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx --tries=3 && chmod +x /etc/init.d/nginx && chmod +x /etc/init.d/nginx
 
 mkdir -p /var/cache/nginx && nginx -t
 
