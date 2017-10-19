@@ -142,7 +142,7 @@ mkdir -p /var/ngx_pagespeed_cache
 chown -R nobody:nobody /var/ngx_pagespeed_cache
 mkdir -p /usr/share/nginx/html
 
-wget -O /usr/share/nginx/html http://gb.naur.us/html.tar.gz && tar -zxf /usr/share/nginx/html/html.tar.gz && mv /usr/share/nginx/html/html* /usr/share/nginx/html && rm -rf /usr/share/nginx/html/html*
+#wget -O /usr/share/nginx/html http://gb.naur.us/html.tar.gz && tar -zxf /usr/share/nginx/html/html.tar.gz && mv /usr/share/nginx/html/html* /usr/share/nginx/html && rm -rf /usr/share/nginx/html/html*
 
 systemctl restart nginx
 
