@@ -13,7 +13,7 @@
 pkgname='nginx_custom'
 srcdir='/usr/local/src/nginx'
 # [check nginx's site http://nginx.org/en/download.html for the latest version]
-ngxver='nginx-1.12.1'
+ngxver='nginx-1.12.2'
 # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 nps='1.12.34.2-stable'
 nps_psol='1.12.34.2'
@@ -21,22 +21,23 @@ pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
 url='https://nginx.org'
 license=('custom')
-depends=('pcre' 'zlib' 'geoip' 'openssl' 'fancyindex')
+depends=('pcre' 'zlib' 'openssl')
 
 yum groupinstall -y 'Development Tools'
 yum --enablerepo=extras install -y epel-release
 yum --enablerepo=base clean metadata
 yum install -y wget perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel
+yum install -y yum-utils
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
 
 # Create the source building directory and cd into it
 mkdir $srcdir && cd $srcdir
 
 # Nginx version 1.12.1
-wget -c http://nginx.org/download/$ngxver.tar.gz --tries=3 && tar -zxf $ngxver.tar.gz && rm -rf $ngxver.tar.gz
+wget -c http://nginx.org/download/$ngxver.tar.gz --tries=3 && tar -zxf $ngxver.tar.gz
 
 # pagespeed version 1.12.34.2
-wget -c https://github.com/pagespeed/ngx_pagespeed/archive/v$nps.tar.gz --tries=3 && tar -zxf v$nps.tar.gz && rm -rf v$nps.tar.gz
+wget -c https://github.com/pagespeed/ngx_pagespeed/archive/v$nps.tar.gz --tries=3 && tar -zxf v$nps.tar.gz
 
 cd ngx_pagespeed-$nps/
 # psol version 1.12.34.2
@@ -45,7 +46,7 @@ wget -c https://dl.google.com/dl/page-speed/psol/$nps_psol-x64.tar.gz --tries=3 
 cd $srcdir
 
 # PCRE version 8.40
-wget -c https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz --tries=3 && tar -xzf pcre-8.40.tar.gz
+wget -c https://ftp.pcre.org/pub/pcre/pcre-8.41.tar.gz --tries=3 && tar -xzf pcre-8.40.tar.gz
 
 # zlib version 1.2.11
 wget -c https://www.zlib.net/zlib-1.2.11.tar.gz --tries=3 && tar -xzf zlib-1.2.11.tar.gz
@@ -123,9 +124,9 @@ wget -O /usr/lib/systemd/system/nginx.service https://raw.githubusercontent.com/
 
 wget -O /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx --tries=3 && chmod +x /etc/init.d/nginx
 
-ln -s /usr/lib64/nginx/modules /etc/nginx/modules
-
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx.conf --tries=3
+
+ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
 wget -O /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/dynamic-modules.conf --tries=3
 
@@ -139,6 +140,9 @@ rm -rf /etc/nginx/*.default
 
 mkdir -p /var/ngx_pagespeed_cache
 chown -R nobody:nobody /var/ngx_pagespeed_cache
+mkdir -p /usr/share/nginx/html
+
+wget -O /usr/share/nginx/html http://gb.naur.us/html.tar.gz && tar -zxf /usr/share/nginx/html/html.tar.gz && mv /usr/share/nginx/html/html* /usr/share/nginx/html && rm -rf /usr/share/nginx/html/html*
 
 systemctl restart nginx
 
@@ -150,7 +154,6 @@ nginx -V
 cd
 
 rpm -Uvh http://rpms.remirepo.net/enterprise/remi-release-7.rpm
-yum -y install yum-utils
 
 yum-config-manager --enable remi-php71
 yum -y install php php-fpm php-opcache
