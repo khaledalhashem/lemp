@@ -22,6 +22,10 @@ arch=('i686' 'x86_64')
 url='https://nginx.org'
 license=('custom')
 depends=('pcre' 'zlib' 'openssl')
+pcre='pcre-8.41'
+zlib='zlib-1.2.11'
+openssl='openssl-1.1.0f'
+fancyindex='0.4.2'
 
 yum groupinstall -y 'Development Tools'
 yum --enablerepo=extras install -y epel-release
@@ -46,16 +50,16 @@ wget -c https://dl.google.com/dl/page-speed/psol/$nps_psol-x64.tar.gz --tries=3 
 cd $srcdir
 
 # PCRE version 8.40
-wget -c https://ftp.pcre.org/pub/pcre/pcre-8.41.tar.gz --tries=3 && tar -xzf pcre-8.41.tar.gz
+wget -c https://ftp.pcre.org/pub/pcre/$pcre.tar.gz --tries=3 && tar -xzf $pcre.tar.gz
 
 # zlib version 1.2.11
-wget -c https://www.zlib.net/zlib-1.2.11.tar.gz --tries=3 && tar -xzf zlib-1.2.11.tar.gz
+wget -c https://www.zlib.net/$zlib.tar.gz --tries=3 && tar -xzf $zlib.tar.gz
 
 # OpenSSL version 1.1.0f
-wget -c https://www.openssl.org/source/openssl-1.1.0f.tar.gz --tries=3 && tar -xzf openssl-1.1.0f.tar.gz
+wget -c https://www.openssl.org/source/$openssl.tar.gz --tries=3 && tar -xzf $openssl.tar.gz
 
 # ngx_fancyindex 0.4.2
-wget -c https://github.com/aperezdc/ngx-fancyindex/archive/v0.4.2.tar.gz --tries=3 && tar -zxf v0.4.2.tar.gz
+wget -c https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz --tries=3 && tar -zxf v$fancyindex.tar.gz
 
 rm -rf *.gz
 
@@ -71,16 +75,16 @@ cd $srcdir/$ngxver
             --user=nginx \
             --group=nginx \
             --build=CentOS \
-            --builddir=nginx-1.12.1 \
+            --builddir=$ngxver \
             --with-select_module \
             --with-poll_module \
             --with-threads \
             --with-file-aio \
-	    --add-module=../ngx_pagespeed-1.12.34.2-stable \
+	    --add-module=../ngx_pagespeed-$nps \
             --with-http_ssl_module \
             --with-http_v2_module \
             --with-http_realip_module \
-	    --add-dynamic-module=../ngx-fancyindex-0.4.2 \
+	    --add-dynamic-module=../ngx-fancyindex-$fancyindex \
             --with-http_addition_module \
             --with-http_xslt_module=dynamic \
             --with-http_image_filter_module=dynamic \
@@ -111,10 +115,10 @@ cd $srcdir/$ngxver
             --with-stream_geoip_module=dynamic \
             --with-stream_ssl_preread_module \
             --with-compat \
-            --with-pcre=../pcre-8.41 \
+            --with-pcre=../$pcre \
             --with-pcre-jit \
-            --with-zlib=../zlib-1.2.11 \
-            --with-openssl=../openssl-1.1.0f \
+            --with-zlib=../$zlib \
+            --with-openssl=../$openssl \
             --with-openssl-opt=no-nextprotoneg
 
 make
