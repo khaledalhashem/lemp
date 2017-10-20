@@ -46,7 +46,7 @@ wget -c https://dl.google.com/dl/page-speed/psol/$nps_psol-x64.tar.gz --tries=3 
 cd $srcdir
 
 # PCRE version 8.40
-wget -c https://ftp.pcre.org/pub/pcre/pcre-8.41.tar.gz --tries=3 && tar -xzf pcre-8.40.tar.gz
+wget -c https://ftp.pcre.org/pub/pcre/pcre-8.41.tar.gz --tries=3 && tar -xzf pcre-8.41.tar.gz
 
 # zlib version 1.2.11
 wget -c https://www.zlib.net/zlib-1.2.11.tar.gz --tries=3 && tar -xzf zlib-1.2.11.tar.gz
@@ -111,7 +111,7 @@ cd $srcdir/$ngxver
             --with-stream_geoip_module=dynamic \
             --with-stream_ssl_preread_module \
             --with-compat \
-            --with-pcre=../pcre-8.40 \
+            --with-pcre=../pcre-8.41 \
             --with-pcre-jit \
             --with-zlib=../zlib-1.2.11 \
             --with-openssl=../openssl-1.1.0f \
