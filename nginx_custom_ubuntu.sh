@@ -26,6 +26,7 @@ depends=('pcre' 'zlib' 'openssl')
 pcre='pcre-8.41'
 zlib='zlib-1.2.11'
 openssl='openssl-1.1.0f'
+fricke='2.3.tar.gz'
 fancyindex='0.4.2'
 
 apt-get update && apt-get -y upgrade
@@ -58,6 +59,9 @@ wget -c https://www.zlib.net/$zlib.tar.gz --tries=3 && tar -xzf $zlib.tar.gz
 # OpenSSL version 1.1.0f
 wget -c https://www.openssl.org/source/$openssl.tar.gz --tries=3 && tar -xzf $openssl.tar.gz
 
+#Frickle version 2.3
+wget -c https://github.com/FRiCKLE/ngx_cache_purge/archive/$frickle.tar.gz --tries=3 && tar -xzf 2.3.tar.gz
+
 # ngx_fancyindex 0.4.2
 wget -c https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz --tries=3 && tar -zxf v$fancyindex.tar.gz
 
@@ -84,6 +88,7 @@ cd $srcdir/$ngxver
             --with-http_ssl_module \
             --with-http_v2_module \
             --with-http_realip_module \
+	    --add-module=../ngx_cache_purge-2.3 \
 	    --add-dynamic-module=../ngx-fancyindex-$fancyindex \
             --with-http_addition_module \
             --with-http_xslt_module=dynamic \
