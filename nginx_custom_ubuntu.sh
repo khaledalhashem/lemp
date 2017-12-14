@@ -9,7 +9,7 @@
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
 # Version: 0.01
 # For Ubuntu
-# yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/ngx_pagespeed.sh && chmod 0700 ngx_pagespeed.sh && bash -x ngx_pagespeed.sh 2>&1 | tee nginx_custom.log
+# curl -O https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx_custom_ubuntu.sh && chmod 0700 nginx_custom_ubuntu.sh && bash -x nginx_custom_ubuntu.sh 2>&1 | tee nginx_custom.log
 
 pkgname='nginx_custom'
 srcdir='/usr/local/src/nginx'
@@ -155,11 +155,11 @@ cp -r $srcdir/$ngxver/contrib/vim/* ~/.vim/
 
 nginx -V
 
-#cd
+cd
 
-apt-get install -y python-software-properties
-add-apt-repository -y ppa:ondrej/php
-apt-get update -y
-apt-get -y install php7.1 php7.1-cli php7.1-common php7.1-mbstring php7.1-gd  php7.0-xml php7.1-fpm php7.1-opcache
+#apt-get install -y python-software-properties
+#add-apt-repository -y ppa:ondrej/php
+#apt-get update -y
+#apt-get -y install php7.1 php7.1-cli php7.1-common php7.1-mbstring php7.1-gd  php7.0-xml php7.1-fpm php7.1-opcache
 
-systemctl restart nginx.service php7.1-fpm.service
+#systemctl restart nginx.service php7.1-fpm.service
