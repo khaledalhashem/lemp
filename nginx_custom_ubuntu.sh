@@ -26,7 +26,7 @@ depends=('pcre' 'zlib' 'openssl')
 pcre='pcre-8.41'
 zlib='zlib-1.2.11'
 openssl='openssl-1.1.0f'
-fricke='2.3.tar.gz'
+frickle='2.3'
 fancyindex='0.4.2'
 
 apt-get update && apt-get -y upgrade
