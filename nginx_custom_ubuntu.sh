@@ -44,7 +44,7 @@ wget -c http://nginx.org/download/$ngxver.tar.gz --tries=3 && tar -zxf $ngxver.t
 # pagespeed version 1.12.34.2
 wget -c https://github.com/pagespeed/ngx_pagespeed/archive/v$nps.tar.gz --tries=3 && tar -zxf v$nps.tar.gz
 
-cd ngx_pagespeed-$nps/
+cd incubator-pagespeed-ngx-$nps/
 # psol version 1.12.34.2
 wget -c https://dl.google.com/dl/page-speed/psol/$nps_psol-x64.tar.gz --tries=3 && tar -zxf $nps_psol-x64.tar.gz && rm -rf $nps_psol-x64.tar.gz
 
@@ -84,7 +84,7 @@ cd $srcdir/$ngxver
             --with-poll_module \
             --with-threads \
             --with-file-aio \
-	    --add-module=../ngx_pagespeed-$nps \
+	    --add-module=../incubator-pagespeed-ngx-$nps \
             --with-http_ssl_module \
             --with-http_v2_module \
             --with-http_realip_module \
