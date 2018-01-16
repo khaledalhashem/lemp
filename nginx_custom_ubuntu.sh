@@ -25,7 +25,7 @@ license=('custom')
 depends=('pcre' 'zlib' 'openssl')
 pcre='pcre-8.41'
 zlib='zlib-1.2.11'
-openssl='openssl-1.1.0f'
+openssl='openssl-1.1.0g'
 frickle='2.3'
 fancyindex='0.4.2'
 
