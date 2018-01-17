@@ -136,6 +136,8 @@ wget -O /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaled
 
 mkdir -p /var/cache/nginx && nginx -t
 
+cp /etc/nginx/html/* /usr/share/nginx/html/
+
 systemctl start nginx.service && systemctl enable nginx.service
 
 rm -rf /etc/nginx/koi-utf /etc/nginx/koi-win /etc/nginx/win-utf
