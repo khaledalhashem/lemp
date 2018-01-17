@@ -131,7 +131,7 @@ make install
 
 wget -O /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx_init.d_script_ubuntu --tries=3 && chmod +x /etc/init.d/nginx
 
-mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx.conf --tries=3
+mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/ubuntu_nginx.conf --tries=3
 
 ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
