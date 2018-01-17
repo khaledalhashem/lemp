@@ -137,6 +137,8 @@ ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
 wget -O /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/dynamic-modules.conf --tries=3
 
+cp /etc/nginx/html/* /usr/share/nginx/html/
+
 mkdir -p /var/cache/nginx && nginx -t
 
 systemctl start nginx.service && systemctl enable nginx.service
