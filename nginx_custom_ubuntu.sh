@@ -141,6 +141,8 @@ mkdir /etc/nginx/{sites-available,sites-enabled}
 
 wget -O /etc/nginx/sites-available/default.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/default.conf --tries=3
 
+wget -O /etc/nginx/sites-available/example.com.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/example.com.conf --tries=3
+
 cp /etc/nginx/html/* /usr/share/nginx/html/
 
 mkdir -p /var/cache/nginx && nginx -t
