@@ -30,8 +30,8 @@ fancyindex='0.4.2'
 yum groupinstall -y 'Development Tools'
 yum --enablerepo=extras install -y epel-release
 yum --enablerepo=base clean metadata
-yum install -y wget perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel
-yum install -y yum-utils
+yum -y update && yum -y install wget perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel
+yum -y install yum-utils
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
 
 # Create the source building directory and cd into it
