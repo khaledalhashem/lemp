@@ -137,7 +137,10 @@ ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
 wget -O /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/dynamic-modules.conf --tries=3
 
-mkdir /etc/nginx/{sites-available,sites-enabled}
+mkdir -p /etc/nginx/{sites-available,sites-enabled} /usr/share/nginx/html /var/www
+chown -R nginx:nginx /usr/share/nginx/html /var/www
+find /usr/share/nginx/html /var/www -type d -exec chmod 755 {} \;
+find /usr/share/nginx/html /var/www -type f -exec chmod 644 {} \;
 
 wget -O /etc/nginx/sites-available/default.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/default.conf --tries=3
 
@@ -155,7 +158,6 @@ rm -rf /etc/nginx/*.default
 
 mkdir -p /var/ngx_pagespeed_cache
 chown -R nobody:nogroup /var/ngx_pagespeed_cache
-mkdir -p /usr/share/nginx/html
 
 #wget -O /usr/share/nginx/html http://gb.naur.us/html.tar.gz && tar -zxf /usr/share/nginx/html/html.tar.gz && mv /usr/share/nginx/html/html* /usr/share/nginx/html && rm -rf /usr/share/nginx/html/html*
 
