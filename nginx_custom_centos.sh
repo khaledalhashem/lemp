@@ -134,7 +134,12 @@ ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
 wget -O /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/dynamic-modules.conf --tries=3
 
-mkdir -p /etc/nginx/conf.d && wget -O /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/default.conf --tries=3
+mkdir -p /etc/nginx/conf.d /usr/share/nginx/html /var/www
+chown -R nginx:nginx /usr/share/nginx/html /var/www
+find /usr/share/nginx/html /var/www -type d -exec chmod 755 {} \;
+find /usr/share/nginx/html /var/www -type f -exec chmod 644 {} \;
+
+wget -O /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/default.conf --tries=3
 
 wget -O /etc/nginx/conf.d/example.com.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/example.com.conf --tries=3
 
@@ -150,9 +155,6 @@ rm -rf /etc/nginx/*.default
 
 mkdir -p /var/ngx_pagespeed_cache
 chown -R nobody:nobody /var/ngx_pagespeed_cache
-mkdir -p /usr/share/nginx/html
-
-#wget -O /usr/share/nginx/html http://gb.naur.us/html.tar.gz && tar -zxf /usr/share/nginx/html/html.tar.gz && mv /usr/share/nginx/html/html* /usr/share/nginx/html && rm -rf /usr/share/nginx/html/html*
 
 systemctl restart nginx
 
