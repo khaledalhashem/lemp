@@ -163,6 +163,27 @@ cp -r $srcdir/$ngxver/contrib/vim/* ~/.vim/
 
 nginx -V
 
+# Auto install latest version of Mariadb and run secure installation
+
+cd
+
+cat <<EOF>> /etc/yum.repos.d/MariaDB.repo
+# MariaDB 10.1 CentOS repository list
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.1/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+EOF
+
+sudo yum -y install MariaDB-server MariaDB-client
+
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+
+sudo /usr/bin/mysql_secure_installation
+
 cd
 
 rpm -Uvh http://rpms.remirepo.net/enterprise/remi-release-7.rpm
