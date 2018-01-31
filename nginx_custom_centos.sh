@@ -177,12 +177,12 @@ gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
 EOF
 
-sudo yum -y install MariaDB-server MariaDB-client
+yum -y install MariaDB-server MariaDB-client
 
-sudo systemctl start mariadb
-sudo systemctl enable mariadb
+systemctl start mariadb
+systemctl enable mariadb
 
-sudo /usr/bin/mysql_secure_installation
+/usr/bin/mysql_secure_installation
 
 cd
 
