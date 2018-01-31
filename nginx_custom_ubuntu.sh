@@ -34,8 +34,11 @@ apt-get -y install build-essential
 apt-get -y install wget perl perl-modules libxslt-dev libgd-dev libgeoip-dev
 
 apt-get -y install software-properties-common
+
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
 add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://mirror.jmu.edu/pub/mariadb/repo/10.1/ubuntu xenial main'
+
+add-apt-repository -y ppa:ondrej/php
 
 apt-get update
 
@@ -185,9 +188,7 @@ sudo /usr/bin/mysql_secure_installation
 
 cd 
 
-#apt-get install -y python-software-properties
-#add-apt-repository -y ppa:ondrej/php
-#apt-get update -y
-#apt-get -y install php7.1 php7.1-cli php7.1-common php7.1-mbstring php7.1-gd  php7.0-xml php7.1-fpm php7.1-opcache
+apt-get -y install php7.1 php7.1-cli php7.1-common php7.1-mbstring php7.1-gd php7.0-xml php7.1-fpm php7.1-opcache php7.1-mysql
 
-#systemctl restart nginx.service php7.1-fpm.service
+systemctl restart nginx.service php7.1-fpm.service
+systemctl enable php7.1-fpm.service
