@@ -33,7 +33,7 @@ apt-get update && apt-get -y upgrade
 apt-get -y install build-essential
 apt-get -y install wget perl perl-modules libxslt-dev libgd-dev libgeoip-dev
 
-apt-get install software-properties-common
+apt-get -y install software-properties-common
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
 add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://mirror.jmu.edu/pub/mariadb/repo/10.1/ubuntu xenial main'
 
