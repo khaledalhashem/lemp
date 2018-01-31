@@ -8,6 +8,7 @@
 
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
 # Version: 0.12
+# Copy and paste the following line into your cosole to auto-start the installation
 # yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx_custom_centos.sh && chmod 0700 nginx_custom_centos.sh && bash -x nginx_custom_centos.sh 2>&1 | tee nginx_custom.log
 
 pkgname='nginx_custom'
