@@ -9,6 +9,7 @@
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
 # Version: 0.01
 # For Ubuntu
+# Copy and paste the following line into your console to auto-start the installation
 # curl -O https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx_custom_ubuntu.sh && chmod 0700 nginx_custom_ubuntu.sh && bash -x nginx_custom_ubuntu.sh 2>&1 | tee nginx_custom.log
 
 pkgname='nginx_custom'
