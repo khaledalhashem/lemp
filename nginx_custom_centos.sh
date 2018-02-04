@@ -142,7 +142,7 @@ find /usr/share/nginx/html /var/www -type f -exec chmod 644 {} \;
 
 wget -O /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/default.conf --tries=3
 
-wget -O /etc/nginx/conf.d/example.com.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/example.com.conf --tries=3
+wget -O /etc/nginx/conf.d/example.com_conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/example.com.conf --tries=3
 
 mkdir -p /var/cache/nginx && nginx -t
 
@@ -185,9 +185,16 @@ systemctl enable mariadb
 
 /usr/bin/mysql_secure_installation
 
+mysql -V
+
 cd
 
 rpm -Uvh http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 
 yum-config-manager --enable remi-php71
 yum -y install php php-fpm php-opcache php-mysql php-cli php-curl php-zip
+
+systemctl start php-fpm
+systemctl enable php-fpm
+
+php -v
