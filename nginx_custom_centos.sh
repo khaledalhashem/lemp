@@ -190,4 +190,4 @@ cd
 rpm -Uvh http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 
 yum-config-manager --enable remi-php71
-yum -y install php php-fpm php-opcache
+yum -y install php php-fpm php-opcache php-mysql php-cli php-curl php-zip
