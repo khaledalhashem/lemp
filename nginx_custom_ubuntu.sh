@@ -182,8 +182,8 @@ cd
 
 apt install -y mariadb-server
 
-systemctl start mariadb.service
-systemctl enable mariadb.service
+systemctl start mysql.service
+systemctl enable mysql.service
 
 sudo /usr/bin/mysql_secure_installation
 
