@@ -7,17 +7,14 @@
 
 
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
-# Version: 0.12
+# Version: 0.2
 # Copy and paste the following line into your cosole to auto-start the installation
 # yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx_custom_centos.sh && chmod 0700 nginx_custom_centos.sh && bash -x nginx_custom_centos.sh 2>&1 | tee nginx_custom.log
 
 pkgname='nginx_custom'
 srcdir='/usr/local/src/nginx'
-# [check nginx's site http://nginx.org/en/download.html for the latest version]
-ngxver='nginx-1.12.2'
-# [check https://www.modpagespeed.com/doc/release_notes for the latest version]
-nps='1.12.34.2-stable'
-nps_psol='1.12.34.2'
+NGINX_VERSION='nginx-1.13.10' # [check nginx's site http://nginx.org/en/download.html for the latest version]
+NPS_VERSION='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
 url='https://nginx.org'
@@ -31,24 +28,29 @@ fancyindex='0.4.2'
 yum groupinstall -y 'Development Tools'
 yum --enablerepo=extras install -y epel-release
 yum --enablerepo=base clean metadata
-yum -y update && yum -y install wget perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel
+yum -y update && yum -y install wget gcc-c++ pcre-devel zlib-devel make libuuid-devel perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel unzip
 yum -y install yum-utils
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
 
 # Create the source building directory and cd into it
 mkdir $srcdir && cd $srcdir
 
-# Nginx version 1.12.1
-wget -c http://nginx.org/download/$ngxver.tar.gz --tries=3 && tar -zxf $ngxver.tar.gz
-
-# pagespeed version 1.12.34.2
-wget -c https://github.com/pagespeed/ngx_pagespeed/archive/v$nps.tar.gz --tries=3 && tar -zxf v$nps.tar.gz
-
-cd incubator-pagespeed-ngx-$nps/
-# psol version 1.12.34.2
-wget -c https://dl.google.com/dl/page-speed/psol/$nps_psol-x64.tar.gz --tries=3 && tar -zxf $nps_psol-x64.tar.gz && rm -rf $nps_psol-x64.tar.gz
+# pagespeed version 1.13.35.2-stable
+wget https://github.com/apache/incubator-pagespeed-ngx/archive/v${NPS_VERSION}.zip
+unzip v${NPS_VERSION}.zip
+nps_dir=$(find . -name "*pagespeed-ngx-${NPS_VERSION}" -type d)
+cd "$nps_dir"
+NPS_RELEASE_NUMBER=${NPS_VERSION/beta/}
+NPS_RELEASE_NUMBER=${NPS_VERSION/stable/}
+psol_url=https://dl.google.com/dl/page-speed/psol/${NPS_RELEASE_NUMBER}.tar.gz
+[ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL)
+wget ${psol_url}
+tar -xzvf $(basename ${psol_url})  # extracts to psol/
 
 cd $srcdir
+
+# Nginx version nginx-1.13.10
+wget -c http://nginx.org/download/$NGINX_VERSION.tar.gz --tries=3 && tar -zxf $NGINX_VERSION.tar.gz
 
 # PCRE version 8.40
 wget -c https://ftp.pcre.org/pub/pcre/$pcre.tar.gz --tries=3 && tar -xzf $pcre.tar.gz
