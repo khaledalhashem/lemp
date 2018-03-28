@@ -6,19 +6,16 @@
 ####################################
 
 
-# Maintainer:  Khaled AlHashem <kalhashem@naur.us>
-# Version: 0.01
+# Maintainer:  Khaled AlHashem <one@naur.us>
+# Version: 0.1
 # For Ubuntu
 # Copy and paste the following line into your console to auto-start the installation
 # curl -O https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx_custom_ubuntu.sh && chmod 0700 nginx_custom_ubuntu.sh && bash -x nginx_custom_ubuntu.sh 2>&1 | tee nginx_custom.log
 
 pkgname='nginx_custom'
 srcdir='/usr/local/src/nginx'
-# [check nginx's site http://nginx.org/en/download.html for the latest version]
-ngxver='nginx-1.12.2'
-# [check https://www.modpagespeed.com/doc/release_notes for the latest version]
-nps='1.12.34.2-stable'
-nps_psol='1.12.34.2'
+NGINX_VERSION='nginx-1.13.10' # [check nginx's site http://nginx.org/en/download.html for the latest version]
+NPS_VERSION='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
 url='https://nginx.org'
@@ -32,7 +29,7 @@ fancyindex='0.4.2'
 
 apt-get update && apt-get -y upgrade
 apt-get -y install build-essential
-apt-get -y install wget perl perl-modules libxslt-dev libgd-dev libgeoip-dev
+apt-get -y install wget zlib1g-dev libpcre3 libpcre3-dev uuid-dev perl perl-modules libxslt-dev libgd-dev libgeoip-dev unzip
 
 apt-get -y install software-properties-common
 
@@ -48,17 +45,22 @@ useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx 
 # Create the source building directory and cd into it
 mkdir $srcdir && cd $srcdir
 
-# Nginx version 1.12.1
-wget -c http://nginx.org/download/$ngxver.tar.gz --tries=3 && tar -zxf $ngxver.tar.gz
-
-# pagespeed version 1.12.34.2
-wget -c https://github.com/pagespeed/ngx_pagespeed/archive/v$nps.tar.gz --tries=3 && tar -zxf v$nps.tar.gz
-
-cd incubator-pagespeed-ngx-$nps/
-# psol version 1.12.34.2
-wget -c https://dl.google.com/dl/page-speed/psol/$nps_psol-x64.tar.gz --tries=3 && tar -zxf $nps_psol-x64.tar.gz && rm -rf $nps_psol-x64.tar.gz
+# pagespeed version 1.13.35.2-stable
+wget https://github.com/apache/incubator-pagespeed-ngx/archive/v${NPS_VERSION}.zip
+unzip v${NPS_VERSION}.zip
+nps_dir=$(find . -name "*pagespeed-ngx-${NPS_VERSION}" -type d)
+cd "$nps_dir"
+NPS_RELEASE_NUMBER=${NPS_VERSION/beta/}
+NPS_RELEASE_NUMBER=${NPS_VERSION/stable/}
+psol_url=https://dl.google.com/dl/page-speed/psol/${NPS_RELEASE_NUMBER}.tar.gz
+[ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL)
+wget ${psol_url}
+tar -xzvf $(basename ${psol_url})  # extracts to psol/
 
 cd $srcdir
+
+# Nginx version nginx-1.13.10
+wget -c http://nginx.org/download/$NGINX_VERSION.tar.gz --tries=3 && tar -zxf $NGINX_VERSION.tar.gz
 
 # PCRE version 8.40
 wget -c https://ftp.pcre.org/pub/pcre/$pcre.tar.gz --tries=3 && tar -xzf $pcre.tar.gz
@@ -77,7 +79,7 @@ wget -c https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz -
 
 rm -rf *.gz
 
-cd $srcdir/$ngxver
+cd $srcdir/$NGINX_VERSION
 
 ./configure --prefix=/etc/nginx \
             --sbin-path=/usr/sbin/nginx \
@@ -89,12 +91,12 @@ cd $srcdir/$ngxver
             --user=nginx \
             --group=nginx \
             --build=Ubuntu \
-            --builddir=$ngxver \
+            --builddir=$NGINX_VERSION \
             --with-select_module \
             --with-poll_module \
             --with-threads \
             --with-file-aio \
-	    --add-module=../incubator-pagespeed-ngx-$nps \
+	    --add-module=../$nps_dir \
             --with-http_ssl_module \
             --with-http_v2_module \
             --with-http_realip_module \
@@ -174,7 +176,7 @@ chown -R nobody:nogroup /var/ngx_pagespeed_cache
 systemctl restart nginx
 
 mkdir ~/.vim/
-cp -r $srcdir/$ngxver/contrib/vim/* ~/.vim/
+cp -r $srcdir/$NGINX_VERSION/contrib/vim/* ~/.vim/
 
 nginx -V
 
