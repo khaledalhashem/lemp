@@ -8,12 +8,6 @@
 
 Automatically builds a custom nginx from source with pagespeed and other useful modules, adding php7.1. Mainly used for static websites.
 
-Look how easy it is to use:
-
-    import project
-    # Get your stuff done
-    project.do_stuff()
-
 Modules
 --------
 
