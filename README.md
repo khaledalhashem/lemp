@@ -16,11 +16,11 @@ Installation
 
 Install script by running:
 
-  **CentOS run the following command**
+  **CentOS run the following command:**
 
     yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx_custom_centos.sh && chmod 0700 nginx_custom_centos.sh && bash -x nginx_custom_centos.sh 2>&1 | tee nginx_custom.log
 
-  **Ubuntu run the following command**
+  **Ubuntu run the following command:**
 
     curl -O https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx_custom_ubuntu.sh && chmod 0700 nginx_custom_ubuntu.sh && bash -x nginx_custom_ubuntu.sh 2>&1 | tee nginx_custom.log
 
