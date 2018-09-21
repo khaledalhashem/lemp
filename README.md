@@ -1,5 +1,4 @@
 # nginx_custom
-==============
 
 Automatically builds a custom nginx from source with pagespeed and other useful modules, adding php7.1. Mainly used for static websites.
 
