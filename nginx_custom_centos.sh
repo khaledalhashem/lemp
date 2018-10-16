@@ -83,7 +83,7 @@ cd $srcdir/$NGINX_VERSION
             --with-poll_module \
             --with-threads \
             --with-file-aio \
-	    --add-module=../incubator-pagespeed-ngx-$nps \
+	    --add-module=../incubator-pagespeed-ngx-$NPS_VERSION \
             --with-http_ssl_module \
             --with-http_v2_module \
             --with-http_realip_module \
