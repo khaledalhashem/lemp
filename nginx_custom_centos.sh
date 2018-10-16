@@ -13,17 +13,17 @@
 
 pkgname='nginx_custom'
 srcdir='/usr/local/src/nginx'
-NGINX_VERSION='nginx-1.13.10' # [check nginx's site http://nginx.org/en/download.html for the latest version]
+NGINX_VERSION='nginx-1.15.5' # [check nginx's site http://nginx.org/en/download.html for the latest version]
 NPS_VERSION='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
 url='https://nginx.org'
 license=('custom')
 depends=('pcre' 'zlib' 'openssl')
-pcre='pcre-8.41'
+pcre='pcre-8.42'
 zlib='zlib-1.2.11'
-openssl='openssl-1.1.0g'
-fancyindex='0.4.2'
+openssl='openssl-1.1.1'
+fancyindex='0.4.3'
 
 yum groupinstall -y 'Development Tools'
 yum --enablerepo=extras install -y epel-release
