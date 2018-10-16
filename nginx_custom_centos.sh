@@ -66,7 +66,7 @@ wget -c https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz -
 
 rm -rf *.gz
 
-cd $srcdir/$ngxver
+cd $srcdir/$NGINX_VERSION
 
 ./configure --prefix=/etc/nginx \
             --sbin-path=/usr/sbin/nginx \
@@ -78,7 +78,7 @@ cd $srcdir/$ngxver
             --user=nginx \
             --group=nginx \
             --build=CentOS \
-            --builddir=$ngxver \
+            --builddir=$NGINX_VERSION \
             --with-select_module \
             --with-poll_module \
             --with-threads \
@@ -162,7 +162,7 @@ chown -R nobody:nobody /var/ngx_pagespeed_cache
 systemctl restart nginx
 
 mkdir ~/.vim/
-cp -r $srcdir/$ngxver/contrib/vim/* ~/.vim/
+cp -r $srcdir/$NGINX_VERSION/contrib/vim/* ~/.vim/
 
 nginx -V
 
