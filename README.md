@@ -1,15 +1,13 @@
-# nginx_custom
+# Lightweight LEMP Stack Built from Source
 
-Automatically builds a custom nginx from source with pagespeed and other useful modules, adding php7.1. Mainly used for static websites.
+Automatically builds a lightweight LEMP stack from source with useful modules. Mainly used for static websites.
 
 Modules
 --------
 
-- ngx_pagespeed 1.12.34.2-stable
-- fancyindex 0.4.2
-- pcre 8.40
-- zlib 1.2.11
-- openssl 1.1.0f
+- nginx-15.1
+- php-7.2
+- mariadb-10.1
 
 Installation
 ------------
