@@ -27,27 +27,27 @@ openssl='openssl-1.1.1'
 fancyindex='0.4.3'
 phpVersion='php-7.2.11'
 
-# try various methods, in order of preference, to detect distro
-# store result in variable '$distro'
-if type lsb_release >/dev/null 2>&1 ; then
-   distro=$(lsb_release -i -s)
-elif [ -e /etc/os-release ] ; then
-   distro=$(awk -F= '$1 == "ID" {print $2}' /etc/os-release)
-elif [ -e /etc/some-other-release-file ] ; then
-   distro=$(ihavenfihowtohandleotherhypotheticalreleasefiles)
-fi
+# # try various methods, in order of preference, to detect distro
+# # store result in variable '$distro'
+# if type lsb_release >/dev/null 2>&1 ; then
+   # distro=$(lsb_release -i -s)
+# elif [ -e /etc/os-release ] ; then
+   # distro=$(awk -F= '$1 == "ID" {print $2}' /etc/os-release)
+# elif [ -e /etc/some-other-release-file ] ; then
+   # distro=$(ihavenfihowtohandleotherhypotheticalreleasefiles)
+# fi
 
-# convert to lowercase
-distro=$(printf '%s\n' "$distro" | LC_ALL=C tr '[:upper:]' '[:lower:]')
+# # convert to lowercase
+# distro=$(printf '%s\n' "$distro" | LC_ALL=C tr '[:upper:]' '[:lower:]')
 
-# now do different things depending on distro
-case "$distro" in
-   debian*)  commands-for-debian ;;
-   centos*)  commands-for-centos ;;
-   ubuntu*)  commands-for-ubuntu ;;
-   mint*)    commands-for-mint ;;
-   *)        echo "unknown distro: '$distro'" ; exit 1 ;;
-esac
+# # now do different things depending on distro
+# case "$distro" in
+   # debian*)  commands-for-debian ;;
+   # centos*)  commands-for-centos ;;
+   # ubuntu*)  commands-for-ubuntu ;;
+   # mint*)    commands-for-mint ;;
+   # *)        echo "unknown distro: '$distro'" ; exit 1 ;;
+# esac
 
 yum groupinstall -y 'Development Tools'
 yum -y update && yum -y install wget gcc-c++ pcre-devel zlib-devel make libuuid-devel perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel unzip openssl-devel
@@ -197,9 +197,6 @@ mkdir $phpSrcDir && cd $phpSrcDir
 # PHP version PHP-7.2.11
 wget -c http://yellow.knaved.com/$phpVersion.tar.gz --tries=3 && tar -zxf $phpVersion.tar.gz
 
-# OpenSSL version 1.1.0f
-wget -c https://www.openssl.org/source/$openssl.tar.gz --tries=3 && tar -xzf $openssl.tar.gz
-
 cd $phpVersion
 
 
@@ -264,6 +261,12 @@ make clean
 make
 make install
 	
-# cd /usr/local/php/etc
-# mkdir fpm.d
-# cp php-fpm.conf.default php-fpm.conf
+cd /usr/local/etc
+cp php-fpm.conf.default php-fpm.conf
+echo pid = /var/run/php-fpm.pid \
+error_log = log/php-fpm.log \
+include=etc/php-fpm.d/*.conf >> php-fpm.conf
+
+cd php-fpm.d/
+cp www.conf.default www.conf
+
