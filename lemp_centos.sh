@@ -203,7 +203,7 @@ cd $phpVer
 ./buildconf --force
 
 ./configure  \
---prefix=/usr/local/php
+--prefix=/usr/local/php \
 --enable-fpm \
 --enable-intl \
 --enable-pcntl \
