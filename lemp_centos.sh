@@ -261,12 +261,12 @@ make clean
 make
 make install
 	
-cd /usr/local/etc
-cp php-fpm.conf.default php-fpm.conf
-echo pid = /var/run/php-fpm.pid \
-error_log = log/php-fpm.log \
-include=etc/php-fpm.d/*.conf >> php-fpm.conf
+wget -O /usr/local/etc/php-fpm.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.conf --tries=3
 
-cd php-fpm.d/
-cp www.conf.default www.conf
+wget -O /usr/local/etc/php-fpm.d/www.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/www.conf --tries=3
 
+wget -O /usr/lib/systemd/system/php-fpm.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.service --tries=3
+
+mkdir -p /var/run/php-fpm/
+
+systemctl start php-fpm && systemctl enable php-fpm
