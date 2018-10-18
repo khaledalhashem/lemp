@@ -14,8 +14,8 @@
 pkgname='lemp'
 nginxSrcDir='/usr/local/src/nginx'
 phpSrcDir='/usr/local/src/php'
-nginxVersion='nginx-1.15.5' # [check nginx's site http://nginx.org/en/download.html for the latest version]
-npsVersion='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
+nginxVer='nginx-1.15.5' # [check nginx's site http://nginx.org/en/download.html for the latest version]
+npsVer='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
 url='https://nginx.org'
@@ -25,7 +25,7 @@ pcre='pcre-8.42'
 zlib='zlib-1.2.11'
 openssl='openssl-1.1.1'
 fancyindex='0.4.3'
-phpVersion='php-7.2.11'
+phpVer='php-7.2.11'
 
 # # try various methods, in order of preference, to detect distro
 # # store result in variable '$distro'
@@ -58,12 +58,12 @@ useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx 
 mkdir $nginxSrcDir && cd $nginxSrcDir
 
 # pagespeed version 1.13.35.2-stable
-wget https://github.com/apache/incubator-pagespeed-ngx/archive/v${npsVersion}.zip
-unzip v${npsVersion}.zip
-nps_dir=$(find . -name "*pagespeed-ngx-${npsVersion}" -type d)
+wget https://github.com/apache/incubator-pagespeed-ngx/archive/v${npsVer}.zip
+unzip v${npsVer}.zip
+nps_dir=$(find . -name "*pagespeed-ngx-${npsVer}" -type d)
 cd "$nps_dir"
-NPS_RELEASE_NUMBER=${npsVersion/beta/}
-NPS_RELEASE_NUMBER=${npsVersion/stable/}
+NPS_RELEASE_NUMBER=${npsVer/beta/}
+NPS_RELEASE_NUMBER=${npsVer/stable/}
 psol_url=https://dl.google.com/dl/page-speed/psol/${NPS_RELEASE_NUMBER}.tar.gz
 [ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL)
 wget ${psol_url}
@@ -72,7 +72,7 @@ tar -xzvf $(basename ${psol_url})  # extracts to psol/
 cd $nginxSrcDir
 
 # Nginx version nginx-1.13.10
-wget -c http://nginx.org/download/$nginxVersion.tar.gz --tries=3 && tar -zxf $nginxVersion.tar.gz
+wget -c http://nginx.org/download/$nginxVer.tar.gz --tries=3 && tar -zxf $nginxVer.tar.gz
 
 # PCRE version 8.40
 wget -c https://ftp.pcre.org/pub/pcre/$pcre.tar.gz --tries=3 && tar -xzf $pcre.tar.gz
@@ -88,7 +88,7 @@ wget -c https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz -
 
 rm -rf *.gz
 
-cd $nginxSrcDir/$nginxVersion
+cd $nginxSrcDir/$nginxVer
 
 ./configure --prefix=/etc/nginx \
             --sbin-path=/usr/sbin/nginx \
@@ -100,12 +100,12 @@ cd $nginxSrcDir/$nginxVersion
             --user=nginx \
             --group=nginx \
             --build=CentOS \
-            --builddir=$nginxVersion \
+            --builddir=$nginxVer \
             --with-select_module \
             --with-poll_module \
             --with-threads \
             --with-file-aio \
-	    --add-module=../incubator-pagespeed-ngx-$npsVersion \
+	    --add-module=../incubator-pagespeed-ngx-$npsVer \
             --with-http_ssl_module \
             --with-http_v2_module \
             --with-http_realip_module \
@@ -184,7 +184,7 @@ chown -R nobody:nobody /var/ngx_pagespeed_cache
 systemctl restart nginx
 
 mkdir ~/.vim/
-cp -r $nginxSrcDir/$nginxVersion/contrib/vim/* ~/.vim/
+cp -r $nginxSrcDir/$nginxVer/contrib/vim/* ~/.vim/
 
 nginx -V
 
@@ -195,9 +195,9 @@ yum -y install openssl-devel bzip2-devel libcurl-devel enchant-devel gmp-devel l
 mkdir $phpSrcDir && cd $phpSrcDir
 
 # PHP version PHP-7.2.11
-wget -c http://yellow.knaved.com/$phpVersion.tar.gz --tries=3 && tar -zxf $phpVersion.tar.gz
+wget -c http://yellow.knaved.com/$phpVer.tar.gz --tries=3 && tar -zxf $phpVer.tar.gz
 
-cd $phpVersion
+cd $phpVer
 
 
 ./buildconf --force
