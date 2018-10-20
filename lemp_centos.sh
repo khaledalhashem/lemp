@@ -190,7 +190,7 @@ nginx -V
 
 ###
 
-yum -y install openssl-devel bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-devel libicu-devel aspell-devel libedit-devel net-snmp-devel libtidy-devel
+yum -y install openssl-devel bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-devel libicu-devel aspell-devel libedit-devel net-snmp-devel libtidy-devel uw-imap-devel
 
 mkdir $phpSrcDir && cd $phpSrcDir
 
