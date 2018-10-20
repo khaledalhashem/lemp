@@ -186,8 +186,6 @@ systemctl restart nginx
 mkdir ~/.vim/
 cp -r $nginxSrcDir/$nginxVer/contrib/vim/* ~/.vim/
 
-nginx -V
-
 ###
 
 yum -y install openssl-devel bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-devel libicu-devel aspell-devel libedit-devel net-snmp-devel libtidy-devel uw-imap-devel
@@ -271,3 +269,7 @@ wget -O /usr/lib/systemd/system/php-fpm.service https://raw.githubusercontent.co
 mkdir -p /var/run/php-fpm/
 
 systemctl start php-fpm && systemctl enable php-fpm
+
+nginx -V
+
+php-fpm -v
