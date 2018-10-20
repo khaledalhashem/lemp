@@ -270,6 +270,8 @@ wget -O /usr/lib/systemd/system/php-fpm.service https://raw.githubusercontent.co
 
 mkdir -p /var/run/php-fpm/
 
+systemctl daemon-reload
+
 systemctl start php-fpm && systemctl enable php-fpm
 
 nginx -V
