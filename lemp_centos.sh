@@ -149,9 +149,9 @@ cd $nginxSrcDir/$nginxVer
 make
 make install
 
-wget -O /usr/lib/systemd/system/nginx.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/nginx.service --tries=3 && chmod +x /usr/lib/systemd/system/nginx.service
+wget -O /usr/lib/systemd/system/nginx.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/nginx.service --tries=3
 
-wget -O /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/centos/nginx_init.d_script_centos --tries=3 && chmod +x /etc/init.d/nginx
+wget -O /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/centos/nginx_init.d_script_centos --tries=3
 
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/centos/nginx.conf --tries=3
 
