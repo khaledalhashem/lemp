@@ -50,6 +50,8 @@ phpVer='php-7.2.11'
 # esac
 
 yum groupinstall -y 'Development Tools'
+yum --enablerepo=extras install -y epel-release
+yum --enablerepo=base clean metadata
 yum -y update && yum -y install wget gcc-c++ pcre-devel zlib-devel make libuuid-devel perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel unzip openssl-devel
 yum -y install yum-utils
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
