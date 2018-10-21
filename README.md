@@ -7,7 +7,7 @@ Modules
 
 - nginx-15.1
 - php-7.2
-- mariadb-10.1
+- mariadb-10.3
 
 Installation
 ------------
