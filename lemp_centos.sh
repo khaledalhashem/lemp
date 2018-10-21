@@ -266,6 +266,8 @@ wget -O /usr/local/php/etc/php-fpm.conf https://raw.githubusercontent.com/khaled
 
 wget -O /usr/local/php/etc/php-fpm.d/www.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/www.conf --tries=3
 
+wget -O /usr/local/php/lib/php.ini https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php.ini --tries=3
+
 wget -O /usr/lib/systemd/system/php-fpm.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.service --tries=3
 
 mkdir -p /var/run/php-fpm/
