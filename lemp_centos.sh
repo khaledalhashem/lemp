@@ -10,7 +10,8 @@
 # Version: 0.2
 # Copy and paste the following line into your cosole to auto-start the installation
 # yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemp_centos.sh && bash -x lemp_centos.sh 2>&1 | tee lemp.log
-
+startTime=$((date +%s))
+endTime=$((date +%s))
 pkgname='lemp'
 nginxSrcDir='/usr/local/src/nginx'
 phpSrcDir='/usr/local/src/php'
@@ -303,6 +304,9 @@ systemctl start mariadb
 systemctl enable mariadb
 
 /usr/bin/mysql_secure_installation
+
+echo "installation of LEMP stack has finished.
+It took $((endTime - startTime)) seconds to complete."
 
 mysql -V
 
