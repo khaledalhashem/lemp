@@ -274,7 +274,10 @@ mkdir -p /var/run/php-fpm/
 
 cat <<EOT >> .bash_profile
 
-PATH=$PATH:/usr/local/php5-20120508-102213/bin/
+PATH=$PATH:/usr/local/php/bin/
+export PATH
+
+PATH=$PATH:/usr/local/php/sbin/
 export PATH
 EOT
 
