@@ -272,6 +272,12 @@ wget -O /usr/lib/systemd/system/php-fpm.service https://raw.githubusercontent.co
 
 mkdir -p /var/run/php-fpm/
 
+cat <<EOT >> .bash_profile
+
+PATH=$PATH:/usr/local/php5-20120508-102213/bin/
+export PATH
+EOT
+
 systemctl daemon-reload
 
 systemctl start php-fpm && systemctl enable php-fpm
