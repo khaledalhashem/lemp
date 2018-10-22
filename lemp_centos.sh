@@ -284,4 +284,4 @@ systemctl start php-fpm && systemctl enable php-fpm
 
 nginx -V
 
-php-fpm -v
+/usr/local/php/bin/php -v
