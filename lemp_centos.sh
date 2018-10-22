@@ -10,6 +10,7 @@
 # Version: 0.2
 # Copy and paste the following line into your cosole to auto-start the installation
 # yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemp_centos.sh && bash -x lemp_centos.sh 2>&1 | tee lemp.log
+
 startTime=$((date +%s))
 endTime=$((date +%s))
 pkgname='lemp'
@@ -27,28 +28,6 @@ zlib='zlib-1.2.11'
 openssl='openssl-1.1.1'
 fancyindex='0.4.3'
 phpVer='php-7.2.11'
-
-# # try various methods, in order of preference, to detect distro
-# # store result in variable '$distro'
-# if type lsb_release >/dev/null 2>&1 ; then
-   # distro=$(lsb_release -i -s)
-# elif [ -e /etc/os-release ] ; then
-   # distro=$(awk -F= '$1 == "ID" {print $2}' /etc/os-release)
-# elif [ -e /etc/some-other-release-file ] ; then
-   # distro=$(ihavenfihowtohandleotherhypotheticalreleasefiles)
-# fi
-
-# # convert to lowercase
-# distro=$(printf '%s\n' "$distro" | LC_ALL=C tr '[:upper:]' '[:lower:]')
-
-# # now do different things depending on distro
-# case "$distro" in
-   # debian*)  commands-for-debian ;;
-   # centos*)  commands-for-centos ;;
-   # ubuntu*)  commands-for-ubuntu ;;
-   # mint*)    commands-for-mint ;;
-   # *)        echo "unknown distro: '$distro'" ; exit 1 ;;
-# esac
 
 yum groupinstall -y 'Development Tools'
 yum --enablerepo=extras install -y epel-release
@@ -74,19 +53,19 @@ tar -xzvf $(basename ${psol_url})  # extracts to psol/
 
 cd $nginxSrcDir
 
-# Nginx version nginx-1.13.10
+# Nginx version nginx-1.15.5
 wget -c http://nginx.org/download/$nginxVer.tar.gz --tries=3 && tar -zxf $nginxVer.tar.gz
 
-# PCRE version 8.40
+# PCRE version 8.42
 wget -c https://ftp.pcre.org/pub/pcre/$pcre.tar.gz --tries=3 && tar -xzf $pcre.tar.gz
 
 # zlib version 1.2.11
 wget -c https://www.zlib.net/$zlib.tar.gz --tries=3 && tar -xzf $zlib.tar.gz
 
-# OpenSSL version 1.1.0f
+# OpenSSL version 1.1.1
 wget -c https://www.openssl.org/source/$openssl.tar.gz --tries=3 && tar -xzf $openssl.tar.gz
 
-# ngx_fancyindex 0.4.2
+# ngx_fancyindex 0.4.3
 wget -c https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz --tries=3 && tar -zxf v$fancyindex.tar.gz
 
 rm -rf *.gz
@@ -196,7 +175,7 @@ yum -y install openssl-devel bzip2-devel libcurl-devel enchant-devel gmp-devel l
 mkdir $phpSrcDir && cd $phpSrcDir
 
 # PHP version PHP-7.2.11
-wget -c http://yellow.knaved.com/$phpVer.tar.gz --tries=3 && tar -zxf $phpVer.tar.gz
+wget -c http://yellow.knaved.com/$phpVer.tar.gz --tries=3 && tar -zxf $phpVer.tar.gz && rm -rf *.gz
 
 cd $phpVer
 
@@ -274,10 +253,8 @@ wget -O /usr/lib/systemd/system/php-fpm.service https://raw.githubusercontent.co
 mkdir -p /var/run/php-fpm/
 
 cat <<EOT >> .bash_profile
-
 PATH=$PATH:/usr/local/php/bin/
 export PATH
-
 PATH=$PATH:/usr/local/php/sbin/
 export PATH
 EOT
