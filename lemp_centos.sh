@@ -257,11 +257,11 @@ cd $phpVer
 --with-fpm-user=nginx \
 --with-fpm-group=nginx \
 --disable-fileinfo
-	
+
 make clean
 make
 make install
-	
+
 wget -O /usr/local/php/etc/php-fpm.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.conf --tries=3
 
 wget -O /usr/local/php/etc/php-fpm.d/www.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/www.conf --tries=3
@@ -284,6 +284,27 @@ EOT
 systemctl daemon-reload
 
 systemctl start php-fpm && systemctl enable php-fpm
+
+cd
+
+cat <<EOF>> /etc/yum.repos.d/MariaDB.repo
+# MariaDB 10.1 CentOS repository list
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.1/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+EOF
+
+yum -y install MariaDB-server MariaDB-client
+
+systemctl start mariadb
+systemctl enable mariadb
+
+/usr/bin/mysql_secure_installation
+
+mysql -V
 
 nginx -V
 
