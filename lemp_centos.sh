@@ -253,12 +253,12 @@ wget -O /usr/lib/systemd/system/php-fpm.service https://raw.githubusercontent.co
 
 mkdir -p /var/run/php-fpm/
 
-cat <<EOT >> .bash_profile
+cat <<EOF >> .bash_profile
 PATH=$PATH:/usr/local/php/bin/
 export PATH
 PATH=$PATH:/usr/local/php/sbin/
 export PATH
-EOT
+EOF
 
 systemctl daemon-reload
 
