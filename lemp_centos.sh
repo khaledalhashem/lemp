@@ -11,7 +11,7 @@
 # Copy and paste the following line into your cosole to auto-start the installation
 # yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemp_centos.sh && bash -x lemp_centos.sh 2>&1 | tee lemp.log
 
-startTime=$((date +%s))
+startTime=$(date +%s)
 pkgname='lemp'
 nginxSrcDir='/usr/local/src/nginx'
 phpSrcDir='/usr/local/src/php'
@@ -167,7 +167,7 @@ systemctl restart nginx
 mkdir ~/.vim/
 cp -r $nginxSrcDir/$nginxVer/contrib/vim/* ~/.vim/
 
-nginxEndTime=$((date +%s))
+nginxEndTime=$(date +%s)
 
 ###
 
@@ -264,7 +264,7 @@ systemctl daemon-reload
 
 systemctl start php-fpm && systemctl enable php-fpm
 
-phpEndTime=$((date +%s))
+phpEndTime=$(date +%s)
 
 cd
 
@@ -283,19 +283,22 @@ yum -y install MariaDB-server MariaDB-client
 systemctl start mariadb
 systemctl enable mariadb
 
+mdbEndTime=$(date +%s)
+totalEndTime=$(date +%s)
+
 /usr/bin/mysql_secure_installation
 
-mdbEndTime=$((date +%s))
-totalEndTime=$((date +%s))
 nginxElapsedTime=$(($nginxEndTime - $startTime))
 phpElapsedTime=$(($phpEndTime - $nginxEndTime))
 mdbElapsedTime=$(($phpEndTime - $mdbEndTime))
 totalElapsedTime=$(($totalEndTime - $startTime))
 
-echo "installation of LEMP stack has finished in $(($totalElapsedTime/60)) mins and $(($totalElapsedTime%60)) secs.
+cat << EOF
+Installation of LEMP stack has finished in $(($totalElapsedTime/60)) mins and $(($totalElapsedTime%60)) secs.
 It took $(($nginxElapsedTime/60)) mins and $(($nginxElapsedTime%60)) secs to complete nginx Installation.
 It took $(($phpElapsedTime/60)) mins and $(($phpElapsedTime%60)) secs to complete php Installation.
-It took $(($mdbElapsedTime/60)) mins and $(($mdbElapsedTime%60)) secs to complete mariadb Installation."
+It took $(($mdbElapsedTime/60)) mins and $(($mdbElapsedTime%60)) secs to complete mariadb Installation.
+EOF
 
 mysql -V
 
