@@ -268,7 +268,7 @@ phpEndTime=$((date +%s))
 
 cd
 
-cat <<EOF>> /etc/yum.repos.d/MariaDB.repo
+cat <<EOF >> /etc/yum.repos.d/MariaDB.repo
 # MariaDB 10.1 CentOS repository list
 # http://downloads.mariadb.org/mariadb/repositories/
 [mariadb]
