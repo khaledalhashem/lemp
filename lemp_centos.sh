@@ -294,10 +294,18 @@ mdbElapsedTime=$(($phpEndTime - $mdbEndTime))
 totalElapsedTime=$(($totalEndTime - $startTime))
 
 cat << EOF
+
+************************************************************************************
+------------------------------------------------------------------------------------
+
 Installation of LEMP stack has finished in $(($totalElapsedTime/60)) mins and $(($totalElapsedTime%60)) secs.
 It took $(($nginxElapsedTime/60)) mins and $(($nginxElapsedTime%60)) secs to complete nginx Installation.
 It took $(($phpElapsedTime/60)) mins and $(($phpElapsedTime%60)) secs to complete php Installation.
 It took $(($mdbElapsedTime/60)) mins and $(($mdbElapsedTime%60)) secs to complete mariadb Installation.
+
+************************************************************************************
+------------------------------------------------------------------------------------
+
 EOF
 
 mysql -V
