@@ -12,7 +12,6 @@
 # yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemp_centos.sh && bash -x lemp_centos.sh 2>&1 | tee lemp.log
 
 startTime=$((date +%s))
-endTime=$((date +%s))
 pkgname='lemp'
 nginxSrcDir='/usr/local/src/nginx'
 phpSrcDir='/usr/local/src/php'
@@ -168,6 +167,8 @@ systemctl restart nginx
 mkdir ~/.vim/
 cp -r $nginxSrcDir/$nginxVer/contrib/vim/* ~/.vim/
 
+nginxEndTime=$((date +%s))
+
 ###
 
 yum -y install openssl-devel bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-devel libicu-devel aspell-devel libedit-devel net-snmp-devel libtidy-devel uw-imap-devel
@@ -263,6 +264,8 @@ systemctl daemon-reload
 
 systemctl start php-fpm && systemctl enable php-fpm
 
+phpEndTime=$((date +%s))
+
 cd
 
 cat <<EOF>> /etc/yum.repos.d/MariaDB.repo
@@ -282,8 +285,17 @@ systemctl enable mariadb
 
 /usr/bin/mysql_secure_installation
 
-echo "installation of LEMP stack has finished.
-It took $((endTime - startTime)) seconds to complete."
+mdbEndTime=$((date +%s))
+totalEndTime=$((date +%s))
+nginxElapsedTime=$(($nginxEndTime - $startTime))
+phpElapsedTime=$(($phpEndTime - $nginxEndTime))
+mdbElapsedTime=$(($phpEndTime - $mdbEndTime))
+totalElapsedTime=$(($totalEndTime - $startTime))
+
+echo "installation of LEMP stack has finished in $(($totalElapsedTime/60)) mins and $(($totalElapsedTime%60)) secs.
+It took $(($nginxElapsedTime/60)) mins and $(($nginxElapsedTime%60)) secs to complete nginx Installation.
+It took $(($phpElapsedTime/60)) mins and $(($phpElapsedTime%60)) secs to complete php Installation.
+It took $(($mdbElapsedTime/60)) mins and $(($mdbElapsedTime%60)) secs to complete mariadb Installation."
 
 mysql -V
 
