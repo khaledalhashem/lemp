@@ -290,7 +290,7 @@ totalEndTime=$(date +%s)
 
 nginxElapsedTime=$(($nginxEndTime - $startTime))
 phpElapsedTime=$(($phpEndTime - $nginxEndTime))
-mdbElapsedTime=$(($phpEndTime - $mdbEndTime))
+mdbElapsedTime=$(($mdbEndTime - $phpEndTime))
 totalElapsedTime=$(($totalEndTime - $startTime))
 
 cat << EOF
