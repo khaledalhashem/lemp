@@ -28,6 +28,7 @@ openssl='openssl-1.1.1'
 fancyindex='0.4.3'
 phpVer='php-7.2.11'
 
+yum grouplist
 yum groupinstall -y 'Development Tools'
 yum --enablerepo=extras install -y epel-release
 yum --enablerepo=base clean metadata
