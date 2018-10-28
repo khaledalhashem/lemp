@@ -8,7 +8,7 @@
 
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
 # Version: 0.2
-# Copy and paste the following line into your cosole to auto-start the installation
+# Copy and paste the following line into your terminal to auto-start the installation
 # yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemp_centos.sh && bash -x lemp_centos.sh 2>&1 | tee lemp.log
 
 startTime=$(date +%s)
