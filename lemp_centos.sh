@@ -12,6 +12,7 @@
 # yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemp_centos.sh && bash -x lemp_centos.sh 2>&1 | tee lemp.log
 
 startTime=$(date +%s)
+wget='wget -qc --tries=3'
 pkgname='lemp'
 nginxSrcDir='/usr/local/src/nginx'
 phpSrcDir='/usr/local/src/php'
