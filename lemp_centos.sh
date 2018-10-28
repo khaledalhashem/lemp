@@ -9,7 +9,7 @@
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
 # Version: 0.2
 # Copy and paste the following line into your cosole to auto-start the installation
-# yum -y update && cURL -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemp_centos.sh && bash -x lemp_centos.sh 2>&1 | tee lemp.log
+# yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemp_centos.sh && bash -x lemp_centos.sh 2>&1 | tee lemp.log
 
 startTime=$(date +%s)
 pkgname='lemp'
@@ -40,7 +40,7 @@ useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx 
 mkdir $nginxSrcDir && cd $nginxSrcDir
 
 # pagespeed version 1.13.35.2-stable
-cURL -O https://github.com/apache/incubator-pagespeed-ngx/archive/v${npsVer}.zip
+curl -O https://github.com/apache/incubator-pagespeed-ngx/archive/v${npsVer}.zip
 unzip v${npsVer}.zip
 nps_dir=$(find . -name "*pagespeed-ngx-${npsVer}" -type d)
 cd "$nps_dir"
@@ -48,25 +48,25 @@ NPS_RELEASE_NUMBER=${npsVer/beta/}
 NPS_RELEASE_NUMBER=${npsVer/stable/}
 psol_url=https://dl.google.com/dl/page-speed/psol/${NPS_RELEASE_NUMBER}.tar.gz
 [ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL)
-cURL -O ${psol_url}
+curl -O ${psol_url}
 tar -xzvf $(basename ${psol_url})  # extracts to psol/
 
 cd $nginxSrcDir
 
 # Nginx version nginx-1.15.5
-cURL -O http://nginx.org/download/$nginxVer.tar.gz && tar -zxf $nginxVer.tar.gz
+curl -O http://nginx.org/download/$nginxVer.tar.gz && tar -zxf $nginxVer.tar.gz
 
 # PCRE version 8.42
-cURL -O https://ftp.pcre.org/pub/pcre/$pcre.tar.gz && tar -xzf $pcre.tar.gz
+curl -O https://ftp.pcre.org/pub/pcre/$pcre.tar.gz && tar -xzf $pcre.tar.gz
 
 # zlib version 1.2.11
-cURL -O https://www.zlib.net/$zlib.tar.gz && tar -xzf $zlib.tar.gz
+curl -O https://www.zlib.net/$zlib.tar.gz && tar -xzf $zlib.tar.gz
 
 # OpenSSL version 1.1.1
-cURL -O https://www.openssl.org/source/$openssl.tar.gz && tar -xzf $openssl.tar.gz
+curl -O https://www.openssl.org/source/$openssl.tar.gz && tar -xzf $openssl.tar.gz
 
 # ngx_fancyindex 0.4.3
-cURL -O https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz && tar -zxf v$fancyindex.tar.gz
+curl -O https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz && tar -zxf v$fancyindex.tar.gz
 
 rm -rf *.gz
 
@@ -131,24 +131,24 @@ cd $nginxSrcDir/$nginxVer
 make
 make install
 
-cURL -o /usr/lib/systemd/system/nginx.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/nginx.service
+curl -o /usr/lib/systemd/system/nginx.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/nginx.service
 
-cURL -o /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/centos/nginx_init.d_script_centos
+curl -o /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/centos/nginx_init.d_script_centos
 
-mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && cURL -o /etc/nginx/nginx.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/centos/nginx.conf
+mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && curl -o /etc/nginx/nginx.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/centos/nginx.conf
 
 ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
-cURL -o /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/dynamic-modules.conf
+curl -o /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/dynamic-modules.conf
 
 mkdir -p /etc/nginx/conf.d /usr/share/nginx/html /var/www
 chown -R nginx:nginx /usr/share/nginx/html /var/www
 find /usr/share/nginx/html /var/www -type d -exec chmod 755 {} \;
 find /usr/share/nginx/html /var/www -type f -exec chmod 644 {} \;
 
-cURL -o /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/default.conf
+curl -o /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/default.conf
 
-cURL -o /etc/nginx/conf.d/example.com_conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/example.com.conf
+curl -o /etc/nginx/conf.d/example.com_conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/example.com.conf
 
 mkdir -p /var/cache/nginx && nginx -t
 
@@ -177,7 +177,7 @@ yum -y install bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-dev
 mkdir $phpSrcDir && cd $phpSrcDir
 
 # PHP version PHP-7.2.11
-cURL -O http://yellow.knaved.com/$phpVer.tar.gz && tar -zxf $phpVer.tar.gz && rm -rf *.gz
+curl -O http://yellow.knaved.com/$phpVer.tar.gz && tar -zxf $phpVer.tar.gz && rm -rf *.gz
 
 cd $phpVer
 
@@ -244,13 +244,13 @@ make clean
 make
 make install
 
-cURL -o /usr/local/php/etc/php-fpm.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.conf
+curl -o /usr/local/php/etc/php-fpm.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.conf
 
-cURL -o /usr/local/php/etc/php-fpm.d/www.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/www.conf
+curl -o /usr/local/php/etc/php-fpm.d/www.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/www.conf
 
-cURL -o /usr/local/php/lib/php.ini https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php.ini
+curl -o /usr/local/php/lib/php.ini https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php.ini
 
-cURL -o /usr/lib/systemd/system/php-fpm.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.service
+curl -o /usr/lib/systemd/system/php-fpm.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.service
 
 mkdir -p /var/run/php-fpm/
 
