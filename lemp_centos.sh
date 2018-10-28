@@ -54,7 +54,7 @@ tar -xzvf $(basename ${psol_url})  # extracts to psol/
 cd $nginxSrcDir
 
 # Nginx version nginx-1.15.5
-cURL http://nginx.org/download/$nginxVer.tar.gz && tar -zxf $nginxVer.tar.gz
+cURL -O http://nginx.org/download/$nginxVer.tar.gz && tar -zxf $nginxVer.tar.gz
 
 # PCRE version 8.42
 cURL -O https://ftp.pcre.org/pub/pcre/$pcre.tar.gz && tar -xzf $pcre.tar.gz
@@ -66,7 +66,7 @@ cURL -O https://www.zlib.net/$zlib.tar.gz && tar -xzf $zlib.tar.gz
 cURL -O https://www.openssl.org/source/$openssl.tar.gz && tar -xzf $openssl.tar.gz
 
 # ngx_fancyindex 0.4.3
-cURL https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz && tar -zxf v$fancyindex.tar.gz
+cURL -O https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz && tar -zxf v$fancyindex.tar.gz
 
 rm -rf *.gz
 
@@ -177,7 +177,7 @@ yum -y install bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-dev
 mkdir $phpSrcDir && cd $phpSrcDir
 
 # PHP version PHP-7.2.11
-wget -c http://yellow.knaved.com/$phpVer.tar.gz --tries=3 && tar -zxf $phpVer.tar.gz && rm -rf *.gz
+cURL -O http://yellow.knaved.com/$phpVer.tar.gz && tar -zxf $phpVer.tar.gz && rm -rf *.gz
 
 cd $phpVer
 
@@ -244,13 +244,13 @@ make clean
 make
 make install
 
-wget -O /usr/local/php/etc/php-fpm.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.conf --tries=3
+cURL -o /usr/local/php/etc/php-fpm.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.conf
 
-wget -O /usr/local/php/etc/php-fpm.d/www.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/www.conf --tries=3
+cURL -o /usr/local/php/etc/php-fpm.d/www.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/www.conf
 
-wget -O /usr/local/php/lib/php.ini https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php.ini --tries=3
+cURL -o /usr/local/php/lib/php.ini https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php.ini
 
-wget -O /usr/lib/systemd/system/php-fpm.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.service --tries=3
+cURL -o /usr/lib/systemd/system/php-fpm.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.service
 
 mkdir -p /var/run/php-fpm/
 
