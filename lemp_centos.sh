@@ -9,7 +9,7 @@
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
 # Version: 0.2
 # Copy and paste the following line into your cosole to auto-start the installation
-# yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemp_centos.sh && bash -x lemp_centos.sh 2>&1 | tee lemp.log
+# yum -y update && cURL -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemp_centos.sh && bash -x lemp_centos.sh 2>&1 | tee lemp.log
 
 startTime=$(date +%s)
 pkgname='lemp'
@@ -32,7 +32,7 @@ yum grouplist
 yum groupinstall -y 'Development Tools'
 yum --enablerepo=extras install -y epel-release
 yum --enablerepo=base clean metadata
-yum -y update && yum -y install wget gcc-c++ pcre-devel zlib-devel make libuuid-devel perl perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2 libxml2-devel gd gd-devel GeoIP GeoIP-devel unzip openssl-devel
+yum -y update && yum -y install pcre-devel zlib-devel libuuid-devel perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2-devel gd gd-devel GeoIP-devel openssl-devel
 yum -y install yum-utils
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
 
@@ -40,7 +40,7 @@ useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx 
 mkdir $nginxSrcDir && cd $nginxSrcDir
 
 # pagespeed version 1.13.35.2-stable
-wget https://github.com/apache/incubator-pagespeed-ngx/archive/v${npsVer}.zip
+cURL -O https://github.com/apache/incubator-pagespeed-ngx/archive/v${npsVer}.zip
 unzip v${npsVer}.zip
 nps_dir=$(find . -name "*pagespeed-ngx-${npsVer}" -type d)
 cd "$nps_dir"
@@ -48,25 +48,25 @@ NPS_RELEASE_NUMBER=${npsVer/beta/}
 NPS_RELEASE_NUMBER=${npsVer/stable/}
 psol_url=https://dl.google.com/dl/page-speed/psol/${NPS_RELEASE_NUMBER}.tar.gz
 [ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL)
-wget ${psol_url}
+cURL -O ${psol_url}
 tar -xzvf $(basename ${psol_url})  # extracts to psol/
 
 cd $nginxSrcDir
 
 # Nginx version nginx-1.15.5
-wget -c http://nginx.org/download/$nginxVer.tar.gz --tries=3 && tar -zxf $nginxVer.tar.gz
+cURL http://nginx.org/download/$nginxVer.tar.gz && tar -zxf $nginxVer.tar.gz
 
 # PCRE version 8.42
-wget -c https://ftp.pcre.org/pub/pcre/$pcre.tar.gz --tries=3 && tar -xzf $pcre.tar.gz
+cURL -O https://ftp.pcre.org/pub/pcre/$pcre.tar.gz && tar -xzf $pcre.tar.gz
 
 # zlib version 1.2.11
-wget -c https://www.zlib.net/$zlib.tar.gz --tries=3 && tar -xzf $zlib.tar.gz
+cURL -O https://www.zlib.net/$zlib.tar.gz && tar -xzf $zlib.tar.gz
 
 # OpenSSL version 1.1.1
-wget -c https://www.openssl.org/source/$openssl.tar.gz --tries=3 && tar -xzf $openssl.tar.gz
+cURL -O https://www.openssl.org/source/$openssl.tar.gz && tar -xzf $openssl.tar.gz
 
 # ngx_fancyindex 0.4.3
-wget -c https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz --tries=3 && tar -zxf v$fancyindex.tar.gz
+cURL https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz && tar -zxf v$fancyindex.tar.gz
 
 rm -rf *.gz
 
@@ -131,24 +131,24 @@ cd $nginxSrcDir/$nginxVer
 make
 make install
 
-wget -O /usr/lib/systemd/system/nginx.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/nginx.service --tries=3
+cURL -o /usr/lib/systemd/system/nginx.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/nginx.service
 
-wget -O /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/centos/nginx_init.d_script_centos --tries=3
+cURL -o /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/centos/nginx_init.d_script_centos
 
-mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/centos/nginx.conf --tries=3
+mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && cURL -o /etc/nginx/nginx.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/centos/nginx.conf
 
 ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
-wget -O /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/dynamic-modules.conf --tries=3
+cURL -o /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/dynamic-modules.conf
 
 mkdir -p /etc/nginx/conf.d /usr/share/nginx/html /var/www
 chown -R nginx:nginx /usr/share/nginx/html /var/www
 find /usr/share/nginx/html /var/www -type d -exec chmod 755 {} \;
 find /usr/share/nginx/html /var/www -type f -exec chmod 644 {} \;
 
-wget -O /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/default.conf --tries=3
+cURL -o /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/default.conf
 
-wget -O /etc/nginx/conf.d/example.com_conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/example.com.conf --tries=3
+cURL -o /etc/nginx/conf.d/example.com_conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/example.com.conf
 
 mkdir -p /var/cache/nginx && nginx -t
 
@@ -163,7 +163,7 @@ rm -rf /etc/nginx/*.default
 mkdir -p /var/ngx_pagespeed_cache
 chown -R nobody:nobody /var/ngx_pagespeed_cache
 
-systemctl restart nginx
+systemctl restart nginx.service
 
 mkdir ~/.vim/
 cp -r $nginxSrcDir/$nginxVer/contrib/vim/* ~/.vim/
@@ -172,7 +172,7 @@ nginxEndTime=$(date +%s)
 
 ###
 
-yum -y install openssl-devel bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-devel libicu-devel aspell-devel libedit-devel net-snmp-devel libtidy-devel uw-imap-devel
+yum -y install bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-devel libicu-devel aspell-devel libedit-devel net-snmp-devel libtidy-devel uw-imap-devel
 
 mkdir $phpSrcDir && cd $phpSrcDir
 
