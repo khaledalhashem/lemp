@@ -107,7 +107,7 @@ elif [ ! -d v$fancyindex ]; then
 else echo "File name $fancyindex already exists"
 fi
 
-if [ ! pwd == $nginxSrcDir/$nginxVer]; then
+if [ ! pwd == $nginxSrcDir/$nginxVer ]; then
 cd $nginxSrcDir/$nginxVer
 else echo "Already in $nginxSrcDir/$nginxVer"
 fi
