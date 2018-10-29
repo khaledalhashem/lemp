@@ -40,9 +40,10 @@ yum -y install yum-utils
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
 
 # Create the source building directory and cd into it
-if [ ! -d "$nginxSrcDir" ]; then
+if [ ! -d $nginxSrcDir ]; then
   mkdir -p $nginxSrcDir && cd $nginxSrcDir
 else cd $nginxSrcDir
+  echo "Directory $nginxSrcDir already exists"
 fi
 
 # pagespeed version 1.13.35.2-stable
@@ -58,36 +59,58 @@ if [ ! -f v${npsVer}.zip ] || [ ! -d $nps_dir ]; then
   $wget ${psol_url}
   tar -xzvf $(basename ${psol_url})  # extracts to psol/
 else cd $nginxSrcDir
+  echo "File name v${npsVer} already exists"
 fi
 
-cd $nginxSrcDir
-
-if [ ! -f $nginxVer.tar.gz ] || [ ! -d $nginxVer ]; then
-# Nginx version nginx-1.15.5
-$wget http://nginx.org/download/$nginxVer.tar.gz && tar -zxf $nginxVer.tar.gz
+if [ ! pwd == $nginxSrcDir ]; then
+  cd $nginxSrcDir
+else echo "Already in $nginxSrcDir"
 fi
 
-if [ ! -f $pcre.tar.gz ] || [ ! -d $pcre ]; then
-# PCRE version 8.42
-$wget https://ftp.pcre.org/pub/pcre/$pcre.tar.gz && tar -xzf $pcre.tar.gz
+if [ ! -f $nginxVer.tar.gz ] && [ ! -d $nginxVer ]; then
+  # Nginx version nginx-1.15.5
+  $wget http://nginx.org/download/$nginxVer.tar.gz && tar -zxf $nginxVer.tar.gz
+elif [ ! -d $nginxVer ]; then
+  tar -zxf $nginxVer.tar.gz
+else echo "File name $nginxVer already exists"
 fi
 
-if [ ! -f $zlib.tar.gz ] || [ ! -d $zlib ]; then
-# zlib version 1.2.11
-$wget https://www.zlib.net/$zlib.tar.gz && tar -xzf $zlib.tar.gz
+if [ ! -f $pcre.tar.gz ] && [ ! -d $pcre ]; then
+  # PCRE version 8.42
+  $wget https://ftp.pcre.org/pub/pcre/$pcre.tar.gz && tar -xzf $pcre.tar.gz
+elif [ ! -d $pcre ]; then
+  tar -xzf $pcre.tar.gz
+else echo "File name $pcre already exists"
 fi
 
-if [ ! -f $openssl.tar.gz ] || [ ! -d $openssl ]; then
-# OpenSSL version 1.1.1
-$wget https://www.openssl.org/source/$openssl.tar.gz && tar -xzf $openssl.tar.gz
+if [ ! -f $zlib.tar.gz ] && [ ! -d $zlib ]; then
+  # zlib version 1.2.11
+  $wget https://www.zlib.net/$zlib.tar.gz && tar -xzf $zlib.tar.gz
+elif [ ! -d $zlib ]; then
+  tar -xzf $zlib.tar.gz
+else echo "File name $zlib already exists"
 fi
 
-if [ ! -f v$fancyindex.tar.gz ] || [ ! -d v$fancyindex ]; then
-# ngx_fancyindex 0.4.3
-$wget https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz && tar -zxf v$fancyindex.tar.gz
+if [ ! -f $openssl.tar.gz ] && [ ! -d $openssl ]; then
+  # OpenSSL version 1.1.1
+  $wget https://www.openssl.org/source/$openssl.tar.gz && tar -xzf $openssl.tar.gz
+elif [ ! -d $openssl ]; then
+  tar -xzf $openssl.tar.gz
+else echo "File name $openssl already exists"
 fi
 
+if [ ! -f v$fancyindex.tar.gz ] && [ ! -d v$fancyindex ]; then
+  # ngx_fancyindex 0.4.3
+  $wget https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz && tar -zxf v$fancyindex.tar.gz
+elif [ ! -d v$fancyindex ]; then
+  tar -zxf v$fancyindex.tar.gz
+else echo "File name $fancyindex already exists"
+fi
+
+if [ ! pwd == $nginxSrcDir/$nginxVer]; then
 cd $nginxSrcDir/$nginxVer
+else echo "Already in $nginxSrcDir/$nginxVer"
+fi
 
 ./configure --prefix=/etc/nginx \
             --sbin-path=/usr/sbin/nginx \
@@ -188,16 +211,28 @@ cp -r $nginxSrcDir/$nginxVer/contrib/vim/* ~/.vim/
 nginxEndTime=$(date +%s)
 
 ###
+# PHP installation
 
 yum -y install bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-devel libicu-devel aspell-devel libedit-devel net-snmp-devel libtidy-devel uw-imap-devel
 
-mkdir $phpSrcDir && cd $phpSrcDir
+if [ ! -d $phpSrcDir ]; then
+  mkdir -p $phpSrcDir && cd $phpSrcDir
+else cd $phpSrcDir
+fi
 
 # PHP version PHP-7.2.11
-$wget http://yellow.knaved.com/$phpVer.tar.gz && tar -zxf $phpVer.tar.gz && rm -rf *.gz
 
-cd $phpVer
+if [ ! -f $phpVer.tar.gz ] && [ ! -d $phpVer ]; then
+  $wget http://yellow.knaved.com/$phpVer.tar.gz && tar -zxf $phpVer.tar.gz
+elif [ ! -d $phpVer ]; then
+  tar -zxf $phpVer.tar.gz && rm -rf *.gz
+else echo "File $phpVer already exists"
+fi
 
+if [ ! pwd == $phpVer ]; then
+  cd $phpVer
+else echo "Already in directory $phpVer"
+fi
 
 ./buildconf --force
 
