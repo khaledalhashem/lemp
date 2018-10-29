@@ -225,7 +225,7 @@ fi
 if [ ! -f $phpVer.tar.gz ] && [ ! -d $phpVer ]; then
   $wget http://yellow.knaved.com/$phpVer.tar.gz && tar -zxf $phpVer.tar.gz
 elif [ ! -d $phpVer ]; then
-  tar -zxf $phpVer.tar.gz && rm -rf *.gz
+  tar -zxf $phpVer.tar.gz
 else echo "File $phpVer already exists"
 fi
 
