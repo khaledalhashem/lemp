@@ -8,7 +8,7 @@ Modules
 - nginx-15.1
 - php-7.2
 - mariadb-10.3
-- Built on Centos 7.x && Ubuntu 16.04 / 18.04
+- Built on Centos 7.x && Ubuntu 16.04 / 18.04 (_Should work on CentOS 6.x && Ubuntu 14.04 but not tested!)
 
 Installation
 ------------
