@@ -11,6 +11,11 @@
 # Copy and paste the following line into your terminal to auto-start the installation
 # yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemp_centos.sh && bash -x lemp_centos.sh 2>&1 | tee lemp.log
 
+echo "LEMP Auto Installer `date`"
+  echo "*************************************************"
+  cecho "* LEMP Auto Installer Started" $boldgreen
+  echo "*************************************************"
+
 startTime=$(date +%s)
 wget='wget -qnc --tries=3'
 pkgname='lemp'
@@ -28,6 +33,25 @@ zlib='zlib-1.2.11'
 openssl='openssl-1.1.1'
 fancyindex='0.4.3'
 phpVer='php-7.2.11'
+
+# Setup Colours
+black='\E[30;40m'
+red='\E[31;40m'
+green='\E[32;40m'
+yellow='\E[33;40m'
+blue='\E[34;40m'
+magenta='\E[35;40m'
+cyan='\E[36;40m'
+white='\E[37;40m'
+
+boldblack='\E[1;30;40m'
+boldred='\E[1;31;40m'
+boldgreen='\E[1;32;40m'
+boldyellow='\E[1;33;40m'
+boldblue='\E[1;34;40m'
+boldmagenta='\E[1;35;40m'
+boldcyan='\E[1;36;40m'
+boldwhite='\E[1;37;40m'
 
 yum grouplist
 yum groupinstall -y 'Development Tools'
@@ -213,6 +237,11 @@ nginxEndTime=$(date +%s)
 ###
 # PHP installation
 
+echo "LEMP Auto Installer `date`"
+  echo "*************************************************"
+  cecho "* LEMP Auto Installer PHP" $boldgreen
+  echo "*************************************************"
+
 yum -y install bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-devel libicu-devel aspell-devel libedit-devel net-snmp-devel libtidy-devel uw-imap-devel
 
 if [ ! -d $phpSrcDir ]; then
@@ -320,6 +349,14 @@ systemctl start php-fpm && systemctl enable php-fpm
 phpEndTime=$(date +%s)
 
 cd
+
+###
+# MariaDB Install
+
+echo "LEMP Auto Installer `date`"
+  echo "*************************************************"
+  cecho "* LEMP Auto Installer MariaDB" $boldgreen
+  echo "*************************************************"
 
 cat <<EOF >> /etc/yum.repos.d/MariaDB.repo
 # MariaDB 10.1 CentOS repository list

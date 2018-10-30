@@ -37,7 +37,7 @@ yum --enablerepo=extras install -y epel-release
 yum --enablerepo=base clean metadata
 # yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 # subscription-manager repos --enable "rhel-*-optional-rpms" --enable "rhel-*-extras-rpms"
-yum -y update && yum -y install pcre-devel zlib-devel libuuid-devel perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2-devel gd gd-devel GeoIP-devel openssl-devel libaio-devel
+yum -y update && yum -y install pcre-devel zlib-devel libuuid-devel perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2-devel gd gd-devel GeoIP-devel openssl-devel libaio-devel cmake
 yum -y install yum-utils
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
 useradd --system --home /var/cache/mysql --shell /sbin/nologin --comment "mysql user" --user-group mysql
