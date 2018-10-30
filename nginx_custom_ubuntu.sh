@@ -10,9 +10,9 @@
 # Version: 0.2
 # For Ubuntu
 # Copy and paste the following line into your console to auto-start the installation
-# curl -O https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx_custom_ubuntu.sh && chmod 0700 nginx_custom_ubuntu.sh && bash -x nginx_custom_ubuntu.sh 2>&1 | tee nginx_custom.log
+# curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_ubuntu.sh && chmod 0700 lemp_ubuntu.sh && bash -x lemp_ubuntu.sh 2>&1 | tee lemp_custom.log
 
-pkgname='nginx_custom'
+pkgname='LEMP'
 srcdir='/usr/local/src/nginx'
 NGINX_VERSION='nginx-1.13.10' # [check nginx's site http://nginx.org/en/download.html for the latest version]
 NPS_VERSION='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
@@ -141,22 +141,22 @@ cd $srcdir/$NGINX_VERSION
 make
 make install
 
-wget -O /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/nginx_init.d_script_ubuntu --tries=3 && chmod +x /etc/init.d/nginx
+wget -O /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/ubuntu/init.d --tries=3
 
-mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/ubuntu_nginx.conf --tries=3
+mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/ubuntu/nginx.conf --tries=3
 
 ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
-wget -O /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/dynamic-modules.conf --tries=3
+wget -O /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/dynamic-modules.conf --tries=3
 
 mkdir -p /etc/nginx/{sites-available,sites-enabled} /usr/share/nginx/html /var/www
 chown -R nginx:nginx /usr/share/nginx/html /var/www
 find /usr/share/nginx/html /var/www -type d -exec chmod 755 {} \;
 find /usr/share/nginx/html /var/www -type f -exec chmod 644 {} \;
 
-wget -O /etc/nginx/sites-available/default.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/default.conf --tries=3
+wget -O /etc/nginx/sites-available/default.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/default.conf --tries=3
 
-wget -O /etc/nginx/sites-available/example.com.conf https://raw.githubusercontent.com/khaledalhashem/nginx_custom/master/example.com.conf --tries=3
+wget -O /etc/nginx/sites-available/example.com.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/example.com.conf --tries=3
 
 cp /etc/nginx/html/* /usr/share/nginx/html/
 
