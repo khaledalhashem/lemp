@@ -13,7 +13,7 @@
 
 echo "LEMP Auto Installer `date`"
   echo "*************************************************"
-  cecho "* LEMP Auto Installer Started" $boldgreen
+  echo "* LEMP Auto Installer Started" $boldgreen
   echo "*************************************************"
 
 startTime=$(date +%s)
@@ -239,7 +239,7 @@ nginxEndTime=$(date +%s)
 
 echo "LEMP Auto Installer `date`"
   echo "*************************************************"
-  cecho "* LEMP Auto Installer PHP" $boldgreen
+  echo "* LEMP Auto Installer PHP" $boldgreen
   echo "*************************************************"
 
 yum -y install bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-devel libicu-devel aspell-devel libedit-devel net-snmp-devel libtidy-devel uw-imap-devel
@@ -355,7 +355,7 @@ cd
 
 echo "LEMP Auto Installer `date`"
   echo "*************************************************"
-  cecho "* LEMP Auto Installer MariaDB" $boldgreen
+  echo "* LEMP Auto Installer MariaDB" $boldgreen
   echo "*************************************************"
 
 cat <<EOF >> /etc/yum.repos.d/MariaDB.repo
