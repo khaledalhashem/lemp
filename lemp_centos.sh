@@ -21,6 +21,7 @@ wget='wget -qnc --tries=3'
 pkgname='lemp'
 nginxSrcDir='/usr/local/src/nginx'
 phpSrcDir='/usr/local/src/php'
+osslSrcDir='/usr/local/src/$(openssl)'
 nginxVer='nginx-1.15.5' # [check nginx's site http://nginx.org/en/download.html for the latest version]
 npsVer='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
@@ -33,6 +34,7 @@ zlib='zlib-1.2.11'
 openssl='openssl-1.1.1'
 fancyindex='0.4.3'
 phpVer='php-7.2.11'
+cpuNum=$(cat /proc/cpuinfo | grep processor | wc -l)i
 
 # Setup Colours
 black='\E[30;40m'
@@ -131,6 +133,21 @@ elif [ ! -d v$fancyindex ]; then
 else echo "File name $fancyindex already exists"
 fi
 
+# Build latest OpenSSL from source
+
+if [ ! -d $osslSrcDir ]; then
+  mkdir -p $osslSrcDir && cd $osslSrcDir
+else cd $osslSrcDir
+  echo "Directory $nginxSrcDir already exists"
+fi
+
+./configure
+# ./Configure linux-x86_64 --prefix=/usr/local --openssldir=/usr/local
+make -j $cpuNum
+make install
+
+export LD_LIBRARY_PATH=/usr/local/lib
+
 if [ ! pwd == $nginxSrcDir/$nginxVer ]; then
 cd $nginxSrcDir/$nginxVer
 else echo "Already in $nginxSrcDir/$nginxVer"
@@ -192,7 +209,7 @@ fi
             --with-openssl=../$openssl \
             --with-openssl-opt=no-nextprotoneg
 
-make
+make -j $cpuNum
 make install
 
 $wget -O /usr/lib/systemd/system/nginx.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/nginx.service
@@ -322,7 +339,7 @@ fi
 --disable-fileinfo
 
 make clean
-make
+make -j $cpuNum
 make install
 
 $wget -O /usr/local/php/etc/php-fpm.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.conf
