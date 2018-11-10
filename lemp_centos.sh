@@ -139,7 +139,7 @@ if [ ! -d $osslSrcDir ]; then
   mkdir -p $osslSrcDir && cd $osslSrcDir
   $wget https://www.openssl.org/source/$openssl.tar.gz && tar -xzf $openssl.tar.gz
 else cd $osslSrcDir
-  echo "Directory $nginxSrcDir already exists"
+  echo "File $phpVer.tar.gz already exists"
 fi
 
 ./configure
