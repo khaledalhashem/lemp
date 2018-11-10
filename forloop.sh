@@ -14,8 +14,17 @@ phpVer='php-7.2.11'
 if [ ! -d $nginxSrcDir ]; then
     echo "Creating $nginxSrcDir"
     mkdir -p $nginxSrcDir && cd $nginxSrcDir
-else cd $nginxSrcDir
-     echo "Directory $nginxSrcDir already exists"
+else [ -d $nginxSrcDir ];
+    while true; do
+	read -p "Do you wish to delete $nginxSrcDir?" yn
+	case $yn in
+	    [Yy]* ) make install; break;;
+	    [Nn]* ) break;;
+	    * ) echo "Please answer with yes or no.";;
+	esac
+
+    done
+    echo "Directory $nginxSrcDir already exists"
 fi
 
 for i in $nginxVer $pcre $zlib $openssl v$fancyindex $phpVer
