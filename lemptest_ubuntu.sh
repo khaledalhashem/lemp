@@ -139,6 +139,20 @@ elif [ ! -d v$fancyindex ]; then
 else echo "File name $fancyindex already exists"
 fi
 
+
+if [ ! -d $osslSrcDir ]; then
+  mkdir -p $osslSrcDir && cd $osslSrcDir
+  $wget https://www.openssl.org/source/$openssl.tar.gz && tar -xzf $openssl.tar.gz
+else cd $osslSrcDir
+  echo "File $phpVer.tar.gz already exists"
+fi
+
+./configure
+make -j $cpuNum
+make install
+
+export LD_LIBRARY_PATH=/usr/local/lib
+
 if [ ! pwd == $nginxSrcDir/$nginxVer ]; then
 cd $nginxSrcDir/$nginxVer
 else echo "Already in $nginxSrcDir/$nginxVer"
