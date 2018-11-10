@@ -13,7 +13,7 @@
 
 echo "LEMP Auto Installer `date`"
   echo "*************************************************"
-  cecho "* LEMP Auto Installer Started" $boldgreen
+  echo "* LEMP Auto Installer Started" $boldgreen
   echo "*************************************************"
 
 startTime=$(date +%s)
@@ -250,7 +250,7 @@ nginxEndTime=$(date +%s)
 
 echo "LEMP Auto Installer `date`"
   echo "*************************************************"
-  cecho "* LEMP Auto Installer PHP" $boldgreen
+  echo "* LEMP Auto Installer PHP" $boldgreen
   echo "*************************************************"
 
 if [ ! -d $phpSrcDir ]; then
@@ -261,7 +261,7 @@ fi
 # PHP version PHP-7.2.11
 
 if [ ! -f $phpVer.tar.gz ] && [ ! -d $phpVer ]; then
-  $wget http://yellow.knaved.com/$phpVer.tar.gz && tar -zxf $phpVer.tar.gz
+  $wget http://yellow.knaved.com/lemp/$phpVer.tar.gz && tar -zxf $phpVer.tar.gz
 elif [ ! -d $phpVer ]; then
   tar -zxf $phpVer.tar.gz
 else echo "File $phpVer already exists"
@@ -362,7 +362,7 @@ phpEndTime=$(date +%s)
 
 echo "LEMP Auto Installer `date`"
   echo "*************************************************"
-  cecho "* LEMP Auto Installer MariaDB" $boldgreen
+  echo "* LEMP Auto Installer MariaDB" $boldgreen
   echo "*************************************************"
 
 apt install -y mariadb-server
