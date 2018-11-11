@@ -9,11 +9,7 @@
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
 # Version: 0.5.1
 # Copy and paste the following line into your terminal to auto-start the installation
-<<<<<<< HEAD
 # yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemptest_centos.sh && chmod 0700 lemptest_centos.sh && bash -x lemptest_centos.sh 2>&1 | tee lemp.log
-=======
-# yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemptest_centos.sh && chmod 0700 lemptest_centos.sh && bash lemptest_centos.sh 2>&1 | tee lemp.log
->>>>>>> refs/remotes/origin/master
 
 echo "LEMP Auto Installer `date`"
   echo "*************************************************"
@@ -81,11 +77,7 @@ else [ -d $nginxSrcDir ];
 	read -p "Do you wish to delete $nginxSrcDir?" yn
 	case $yn in
 	    [Yy]* ) rm -rf $nginxSrcDir; break;;
-<<<<<<< HEAD
 	    [Nn]* ) cd $nginxSrcDir; break;;
-=======
-	    [Nn]* ) cd nginxSrcDir; break;;
->>>>>>> refs/remotes/origin/master
 	    * ) echo "Please answer with yes or no.";;
 	esac
 
