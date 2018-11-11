@@ -9,7 +9,7 @@
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
 # Version: 0.5.1
 # Copy and paste the following line into your terminal to auto-start the installation
-# yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemptest_centos.sh && bash -x lemptest_centos.sh 2>&1 | tee lemp.log
+# yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemptest_centos.sh && chmod 0700 lemptest_centos.sh && bash -x lemptest_centos.sh 2>&1 | tee lemp.log
 
 echo "LEMP Auto Installer `date`"
   echo "*************************************************"
