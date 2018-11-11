@@ -55,6 +55,8 @@ boldmagenta='\E[1;35;40m'
 boldcyan='\E[1;36;40m'
 boldwhite='\E[1;37;40m'
 
+export LC_ALL="en_US.UTF-8"
+
 yum grouplist
 yum groupinstall -y 'Development Tools'
 yum --enablerepo=extras install -y epel-release
@@ -125,7 +127,7 @@ elif [ ! -d $openssl ]; then
 else echo "File name $openssl already exists"
 fi
 
-if [ ! -f v$fancyindex.tar.gz ] && [ ! -d v$fancyindex ]; then
+if [ ! -f v$fancyindex.tar.gz ] && [ ! -d ngx-fancyindex-v$fancyindex ]; then
   # ngx_fancyindex 0.4.3
   $wget https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz && tar -zxf v$fancyindex.tar.gz
 elif [ ! -d v$fancyindex ]; then
