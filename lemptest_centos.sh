@@ -9,7 +9,7 @@
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
 # Version: 0.5.1
 # Copy and paste the following line into your terminal to auto-start the installation
-# yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemptest_centos.sh && chmod 0700 lemptest_centos.sh && bash -x lemptest_centos.sh 2>&1 | tee lemp.log
+# yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemptest_centos.sh && chmod 0700 lemptest_centos.sh && bash lemptest_centos.sh 2>&1 | tee lemp.log
 
 echo "LEMP Auto Installer `date`"
   echo "*************************************************"
@@ -20,9 +20,9 @@ startTime=$(date +%s)
 wget='wget -qnc --tries=3'
 pkgname='lemp'
 baseDir='/usr/local/src'
-nginxSrcDir=$baseDir/nginx
-phpSrcDir=$baseDir/php
-osslSrcDir=$baseDir/openssl/$openssl
+nginxSrcDir='$(baseDir)/nginx'
+phpSrcDir='$(baseDir)/php'
+osslSrcDir='$(baseDir)/openssl/$(openssl)'
 nginxVer='nginx-1.15.6' # [check nginx's site http://nginx.org/en/download.html for the latest version]
 npsVer='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
@@ -80,6 +80,10 @@ else [ -d $nginxSrcDir ];
 	    [Nn]* ) cd $nginxSrcDir; break;;
 	    * ) echo "Please answer with yes or no.";;
 	esac
+
+    done
+    echo "Directory $nginxSrcDir already exists"
+fi
 
 # pagespeed version 1.13.35.2-stable
 if [ ! -f v${npsVer}.zip ] || [ ! -d $nps_dir ]; then
