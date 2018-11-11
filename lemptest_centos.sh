@@ -7,9 +7,9 @@
 
 
 # Maintainer:  Khaled AlHashem <kalhashem@naur.us>
-# Version: 0.2
+# Version: 0.5.1
 # Copy and paste the following line into your terminal to auto-start the installation
-# yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemp_centos.sh && bash -x lemp_centos.sh 2>&1 | tee lemp.log
+# yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemptest_centos.sh && bash -x lemptest_centos.sh 2>&1 | tee lemp.log
 
 echo "LEMP Auto Installer `date`"
   echo "*************************************************"
@@ -19,9 +19,10 @@ echo "LEMP Auto Installer `date`"
 startTime=$(date +%s)
 wget='wget -qnc --tries=3'
 pkgname='lemp'
-nginxSrcDir='/usr/local/src/nginx'
-phpSrcDir='/usr/local/src/php'
-osslSrcDir='/usr/local/src/$(openssl)'
+baseDir='/usr/local/src'
+nginxSrcDir=$baseDir/nginx
+phpSrcDir=$baseDir/php
+osslSrcDir=$baseDir/openssl/$openssl
 nginxVer='nginx-1.15.6' # [check nginx's site http://nginx.org/en/download.html for the latest version]
 npsVer='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
@@ -75,8 +76,8 @@ else [ -d $nginxSrcDir ];
     while true; do
 	read -p "Do you wish to delete $nginxSrcDir?" yn
 	case $yn in
-	    [Yy]* ) make install; break;;
-	    [Nn]* ) break;;
+	    [Yy]* ) rm -rf $nginxSrcDir; break;;
+	    [Nn]* ) cd $nginxSrcDir; break;;
 	    * ) echo "Please answer with yes or no.";;
 	esac
 
@@ -99,12 +100,9 @@ fi
 for i in $nginxVer $pcre $zlib $openssl v$fancyindex $phpVer
 do
     if [ ! -f $i.tar.gz ] && [ ! -d $i ]; then
-	echo "Downloading file $i now"
 	$wget http://yellow.knaved.com/lemp/$i.tar.gz
-	echo "Extracting file $i now"
 	tar -zxf $i.tar.gz
     elif [ ! -d $i ]; then
-	echo "Extracting file $i now"
 	tar -zxf $i.tar.gz
     else echo "File name $i already exists"
     fi
@@ -114,7 +112,7 @@ done
 
 if [ ! -d $osslSrcDir ]; then
   mkdir -p $osslSrcDir && cd $osslSrcDir
-  $wget https://www.openssl.org/source/$openssl.tar.gz && tar -xzf $openssl.tar.gz
+  cp -r $nginxSrcDir/$openssl $osslSrcDir
 else cd $osslSrcDir
   echo "File $phpVer.tar.gz already exists"
 fi
