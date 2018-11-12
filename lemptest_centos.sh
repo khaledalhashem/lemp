@@ -76,7 +76,7 @@ else [ -d $nginxSrcDir ];
     while true; do
 	read -p "Do you wish to delete $nginxSrcDir?" yn
 	case $yn in
-	    [Yy]* ) rm -rf $nginxSrcDir; break;;
+	    [Yy]* ) rm -rf $nginxSrcDir $osslSrcDir; break;;
 	    [Nn]* ) cd $nginxSrcDir; break;;
 	    * ) echo "Please answer with yes or no.";;
 	esac

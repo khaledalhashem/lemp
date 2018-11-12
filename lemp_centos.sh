@@ -74,6 +74,7 @@ else cd $nginxSrcDir
   echo "Directory $nginxSrcDir already exists"
 fi
 
+
 # pagespeed version 1.13.35.2-stable
 if [ ! -f v${npsVer}.zip ] || [ ! -d $nps_dir ]; then
   $wget https://github.com/apache/incubator-pagespeed-ngx/archive/v${npsVer}.zip
