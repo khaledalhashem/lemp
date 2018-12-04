@@ -104,7 +104,7 @@ fi
 for i in $nginxVer $pcre $zlib $openssl v$fancyindex $phpVer
 do
     if [ ! -f $i.tar.gz ] && [ ! -d $i ]; then
-	$wget http://yellow.knaved.com/lemp/$i.tar.gz
+	$wget http://yellow.miserver.co/lemp/$i.tar.gz
 	tar -zxf $i.tar.gz
     elif [ ! -d $i ]; then
 	tar -zxf $i.tar.gz
@@ -249,7 +249,7 @@ fi
 # PHP version PHP-7.2.11
 
 if [ ! -f $phpVer.tar.gz ] && [ ! -d $phpVer ]; then
-  $wget http://yellow.knaved.com/lemp/$phpVer.tar.gz && tar -zxf $phpVer.tar.gz
+  $wget http://yellow.miserver.co/lemp/$phpVer.tar.gz && tar -zxf $phpVer.tar.gz
 elif [ ! -d $phpVer ]; then
   tar -zxf $phpVer.tar.gz
 else echo "File $phpVer already exists"
