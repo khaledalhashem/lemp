@@ -23,7 +23,7 @@ baseDir='/usr/local/src'
 nginxSrcDir="$baseDir/nginx"
 phpSrcDir="$baseDir/php"
 osslSrcDir="$baseDir/openssl/$openssl"
-nginxVer='nginx-1.15.6' # [check nginx's site http://nginx.org/en/download.html for the latest version]
+nginxVer='nginx-1.15.7' # [check nginx's site http://nginx.org/en/download.html for the latest version]
 npsVer='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
@@ -34,7 +34,7 @@ pcre='pcre-8.42'
 zlib='zlib-1.2.11'
 openssl='openssl-1.1.1'
 fancyindex='0.4.3'
-phpVer='php-7.2.12'
+phpVer='php-7.3'
 cpuNum=$(cat /proc/cpuinfo | grep processor | wc -l)i
 
 # Setup Colours
@@ -71,7 +71,7 @@ useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx 
 # Create the source building directory and cd into it
 if [ ! -d $nginxSrcDir ]; then
     echo "Creating $nginxSrcDir"
-    mkdir -p $nginxSrcDir && cd $nginxSrcDir
+    mkdir -p $nginxSrcDir && cd $_
 else [ -d $nginxSrcDir ];
     while true; do
 	read -p "Do you wish to delete $nginxSrcDir?" yn
@@ -115,7 +115,7 @@ done
 # Build latest OpenSSL from source
 
 if [ ! -d $osslSrcDir ]; then
-  mkdir -p $osslSrcDir && cd $osslSrcDir
+  mkdir -p $osslSrcDir && cd $_
   cp -r $nginxSrcDir/$openssl $osslSrcDir
 else cd $osslSrcDir
   echo "File $phpVer.tar.gz already exists"
@@ -242,7 +242,7 @@ echo "LEMP Auto Installer `date`"
 yum -y install bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-devel libicu-devel aspell-devel libedit-devel net-snmp-devel libtidy-devel uw-imap-devel
 
 if [ ! -d $phpSrcDir ]; then
-  mkdir -p $phpSrcDir && cd $phpSrcDir
+  mkdir -p $phpSrcDir && cd $_
 else cd $phpSrcDir
 fi
 
