@@ -101,6 +101,11 @@ else cd $nginxSrcDir
   echo "File name v${npsVer} already exists"
 fi
 
+if [ ! pwd == $nginxSrcDir ]; then
+  cd $nginxSrcDir
+else echo "Already in $nginxSrcDir"
+fi
+
 for i in $nginxVer $pcre $zlib $openssl v$fancyindex $phpVer
 do
     if [ ! -f $i.tar.gz ] && [ ! -d $i ]; then
