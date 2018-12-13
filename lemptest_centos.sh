@@ -244,7 +244,7 @@ echo "LEMP Auto Installer `date`"
   echo "* LEMP Auto Installer PHP" $boldgreen
   echo "*************************************************"
 
-yum -y install bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-devel libicu-devel aspell-devel libedit-devel net-snmp-devel libtidy-devel uw-imap-devel
+yum -y install bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-devel libicu-devel aspell-devel libedit-devel net-snmp-devel libtidy-devel uw-imap-devel libzip-devel
 
 if [ ! -d $phpSrcDir ]; then
   mkdir -p $phpSrcDir && cd $_
