@@ -34,8 +34,8 @@ pcre='pcre-8.42'
 zlib='zlib-1.2.11'
 openssl='openssl-1.1.1'
 fancyindex='0.4.3'
-phpVer='php-7.3'
-cpuNum=$(cat /proc/cpuinfo | grep processor | wc -l)i
+phpVer='php-7.3.0'
+cpuNum=$(cat /proc/cpuinfo | grep processor | wc -l)
 
 # Setup Colours
 black='\E[30;40m'
