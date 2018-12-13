@@ -20,9 +20,9 @@ startTime=$(date +%s)
 wget='wget -qnc --tries=3'
 pkgname='lemp'
 baseDir='/usr/local/src'
-nginxSrcDir="$(baseDir)/nginx"
-phpSrcDir="$(baseDir)/php"
-osslSrcDir="$(baseDir)/openssl/$(openssl)"
+nginxSrcDir="$baseDir/nginx"
+phpSrcDir="$baseDir/php"
+osslSrcDir="$baseDir/openssl/$openssl"
 nginxVer='nginx-1.15.6' # [check nginx's site http://nginx.org/en/download.html for the latest version]
 npsVer='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
