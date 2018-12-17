@@ -34,7 +34,7 @@ pcre='pcre-8.42'
 zlib='zlib-1.2.11'
 openssl='openssl-1.1.1a'
 fancyindex='0.4.3'
-phpVer='php-7.3.0'
+phpVer='php-7.2.13'
 cpuNum=$(cat /proc/cpuinfo | grep processor | wc -l)
 
 # Setup Colours
@@ -275,7 +275,7 @@ fi
 --with-mcrypt \
 --with-snmp \
 --with-mhash \
-# --with-zlib \
+--with-zlib \
 --with-gettext \
 --enable-exif \
 --enable-zip \
