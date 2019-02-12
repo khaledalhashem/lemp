@@ -369,6 +369,8 @@ systemctl start php-fpm && systemctl enable php-fpm
 
 phpEndTime=$(date +%s)
 
+cp /usr/local/php/bin/php /usr/sbin/php
+
 cd
 
 ###
