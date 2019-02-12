@@ -22,7 +22,7 @@ pkgname='lemp'
 nginxSrcDir='/usr/local/src/nginx'
 phpSrcDir='/usr/local/src/php'
 osslSrcDir='/usr/local/src/$(openssl)'
-nginxVer='nginx-1.15.6' # [check nginx's site http://nginx.org/en/download.html for the latest version]
+nginxVer='nginx-1.15.8' # [check nginx's site http://nginx.org/en/download.html for the latest version]
 npsVer='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
@@ -33,7 +33,7 @@ pcre='pcre-8.42'
 zlib='zlib-1.2.11'
 openssl='openssl-1.1.1'
 fancyindex='0.4.3'
-phpVer='php-7.2.12'
+phpVer='php-7.2.15'
 cpuNum=$(cat /proc/cpuinfo | grep processor | wc -l)i
 
 # Setup Colours
@@ -273,7 +273,7 @@ fi
 # PHP version PHP-7.2.11
 
 if [ ! -f $phpVer.tar.gz ] && [ ! -d $phpVer ]; then
-  $wget http://yellow.miserver.co/lemp/$phpVer.tar.gz && tar -zxf $phpVer.tar.gz
+$wget -O $phpVer.tar.gz http://de2.php.net/get/$phpVer.tar.gz/from/this/mirror && tar -zxf $phpVer.tar.gz
 elif [ ! -d $phpVer ]; then
   tar -zxf $phpVer.tar.gz
 else echo "File $phpVer already exists"
