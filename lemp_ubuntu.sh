@@ -169,7 +169,7 @@ fi
             --lock-path=/var/run/nginx.lock \
             --user=nginx \
             --group=nginx \
-            --build=CentOS \
+            --build=Debian \
             --builddir=$nginxVer \
             --with-select_module \
             --with-poll_module \
@@ -270,7 +270,7 @@ echo "LEMP Auto Installer `date`"
   echo "* LEMP Auto Installer PHP" $boldgreen
   echo "*************************************************"
 
-apt install -y libbz2-dev libcurl4-openssl-dev libenchant-dev libgmp3-dev libc-client2007e-dev
+apt install -y libbz2-dev libcurl4-openssl-dev libenchant-dev libgmp3-dev libc-client2007e-dev libkrb5-dev libpspell-dev libedit-dev libsnmp-dev libtidy-dev
   
 if [ ! -d $phpSrcDir ]; then
   mkdir -p $phpSrcDir && cd $phpSrcDir
@@ -318,7 +318,7 @@ ln -s /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a
 --enable-mbstring \
 --with-openssl \
 --with-mysql=mysqlnd \
---with-libdir=lib64 \
+--with-libdir=lib \
 --with-mysqli=mysqlnd \
 --with-mysql-sock=/var/lib/mysql/mysql.sock \
 --with-curl \
