@@ -270,7 +270,7 @@ echo "LEMP Auto Installer `date`"
   echo "* LEMP Auto Installer PHP" $boldgreen
   echo "*************************************************"
 
-apt install -y libbz2-dev libcurl4-openssl-dev libenchant-dev libgmp3-dev libc-client2007e-dev libkrb5-dev libpspell-dev libedit-dev libsnmp-dev libtidy-dev
+apt install -y libbz2-dev libcurl4-openssl-dev libenchant-dev libgmp3-dev libc-client2007e-dev libkrb5-dev libpspell-dev libedit-dev libsnmp-dev libtidy-dev snmp-mibs-downloader
   
 if [ ! -d $phpSrcDir ]; then
   mkdir -p $phpSrcDir && cd $phpSrcDir
