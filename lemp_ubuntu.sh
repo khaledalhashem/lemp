@@ -8,24 +8,38 @@
 
 # Maintainer:  Khaled AlHashem <one@naur.us>
 # Version: 0.2
-# For Ubuntu
 # Copy and paste the following line into your console to auto-start the installation
 # curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_ubuntu.sh && chmod 0700 lemp_ubuntu.sh && bash -x lemp_ubuntu.sh 2>&1 | tee lemp_custom.log
 
-pkgname='LEMP'
-srcdir='/usr/local/src/nginx'
-NGINX_VERSION='nginx-1.13.10' # [check nginx's site http://nginx.org/en/download.html for the latest version]
-NPS_VERSION='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
+echo "LEMP Auto Installer `date`"
+  echo "*************************************************"
+  echo "* LEMP Auto Installer Started" $boldgreen
+  echo "*************************************************"
+
+startTime=$(date +%s)
+wget='wget -qnc --tries=3'
+pkgname='lemp'
+nginxSrcDir='/usr/local/src/nginx'
+phpSrcDir='/usr/local/src/php'
+osslSrcDir='/usr/local/src/$(openssl)'
+nginxVer='nginx-1.15.8' # [check nginx's site http://nginx.org/en/download.html for the latest version]
+npsVer='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
 url='https://nginx.org'
 license=('custom')
 depends=('pcre' 'zlib' 'openssl')
-pcre='pcre-8.41'
+pcre='pcre-8.42'
 zlib='zlib-1.2.11'
-openssl='openssl-1.1.0g'
+openssl='openssl-1.1.1'
 frickle='2.3'
-fancyindex='0.4.2'
+fancyindex='0.4.3'
+phpVer='php-7.2.11'
+cpuNum=$(cat /proc/cpuinfo | grep processor | wc -l)
+
+boldgreen='\E[1;32;40m'
+
+export LC_ALL="en_US.UTF-8"
 
 apt-get update && apt-get -y upgrade
 apt-get -y install build-essential
@@ -36,50 +50,115 @@ apt-get -y install software-properties-common
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
 add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://mirror.jmu.edu/pub/mariadb/repo/10.1/ubuntu xenial main'
 
-add-apt-repository -y ppa:ondrej/php
-
 apt-get update
 
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
 
 # Create the source building directory and cd into it
-mkdir $srcdir && cd $srcdir
+
+if [ ! -d $nginxSrcDir ]; then
+  mkdir -p $nginxSrcDir && cd $nginxSrcDir
+else cd $nginxSrcDir
+  echo "Directory $nginxSrcDir already exists"
+fi
 
 # pagespeed version 1.13.35.2-stable
-wget https://github.com/apache/incubator-pagespeed-ngx/archive/v${NPS_VERSION}.zip
-unzip v${NPS_VERSION}.zip
-nps_dir=$(find . -name "*pagespeed-ngx-${NPS_VERSION}" -type d)
-cd "$nps_dir"
-NPS_RELEASE_NUMBER=${NPS_VERSION/beta/}
-NPS_RELEASE_NUMBER=${NPS_VERSION/stable/}
-psol_url=https://dl.google.com/dl/page-speed/psol/${NPS_RELEASE_NUMBER}.tar.gz
-[ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL)
-wget ${psol_url}
-tar -xzvf $(basename ${psol_url})  # extracts to psol/
+if [ ! -f v${npsVer}.zip ] || [ ! -d $nps_dir ]; then
+    $wget https://github.com/apache/incubator-pagespeed-ngx/archive/v${npsVer}.zip
+    unzip v${npsVer}.zip
+    nps_dir=$(find . -name "*pagespeed-ngx-${npsVer}" -type d)
+    cd "$nps_dir"
+    NPS_RELEASE_NUMBER=${npsVer/beta/}
+    NPS_RELEASE_NUMBER=${npsVer/stable/}
+    psol_url=https://dl.google.com/dl/page-speed/psol/${NPS_RELEASE_NUMBER}.tar.gz
+    [ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL)
+    $wget ${psol_url}
+    tar -xzvf $(basename ${psol_url})  # extracts to psol/
+else cd $nginxSrcDir
+     echo "File name v{npsVer} already exists"
+fi
 
-cd $srcdir
+if [ ! pwd == $nginxSrcDir ]; then
+    cd $nginxSrcDir
+else echo "Already in $nginxSrcDir"
+fi
 
-# Nginx version nginx-1.13.10
-wget -c http://nginx.org/download/$NGINX_VERSION.tar.gz --tries=3 && tar -zxf $NGINX_VERSION.tar.gz
+# Nginx version nginx-1.15.5
+$wget -c http://nginx.org/download/$nginxVer.tar.gz --tries=3 && tar -zxf $nginxVer.tar.gz
 
-# PCRE version 8.40
-wget -c https://ftp.pcre.org/pub/pcre/$pcre.tar.gz --tries=3 && tar -xzf $pcre.tar.gz
+# PCRE version 8.42
+$wget -c https://ftp.pcre.org/pub/pcre/$pcre.tar.gz --tries=3 && tar -xzf $pcre.tar.gz
 
-# zlib version 1.2.11
-wget -c https://www.zlib.net/$zlib.tar.gz --tries=3 && tar -xzf $zlib.tar.gz
+# zlib version 1.2.12
+$wget -c https://www.zlib.net/$zlib.tar.gz --tries=3 && tar -xzf $zlib.tar.gz
 
-# OpenSSL version 1.1.0f
-wget -c https://www.openssl.org/source/$openssl.tar.gz --tries=3 && tar -xzf $openssl.tar.gz
+# OpenSSL version 1.1.1
+$wget -c https://www.openssl.org/source/$openssl.tar.gz --tries=3 && tar -xzf $openssl.tar.gz
 
 #Frickle version 2.3
-wget -c https://github.com/FRiCKLE/ngx_cache_purge/archive/$frickle.tar.gz --tries=3 && tar -xzf 2.3.tar.gz
+$wget -c https://github.com/FRiCKLE/ngx_cache_purge/archive/$frickle.tar.gz --tries=3 && tar -xzf 2.3.tar.gz
 
-# ngx_fancyindex 0.4.2
-wget -c https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz --tries=3 && tar -zxf v$fancyindex.tar.gz
+# ngx_fancyindex 0.4.3
+$wget -c https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz --tries=3 && tar -zxf v$fancyindex.tar.gz
+if [ ! -f $nginxVer.tar.gz ] && [ ! -d $nginxVer ]; then
+  # Nginx version nginx-1.15.5
+  $wget http://nginx.org/download/$nginxVer.tar.gz && tar -zxf $nginxVer.tar.gz
+elif [ ! -d $nginxVer ]; then
+  tar -zxf $nginxVer.tar.gz
+else echo "File name $nginxVer already exists"
+fi
 
-rm -rf *.gz
+if [ ! -f $pcre.tar.gz ] && [ ! -d $pcre ]; then
+  # PCRE version 8.42
+  $wget https://ftp.pcre.org/pub/pcre/$pcre.tar.gz && tar -xzf $pcre.tar.gz
+elif [ ! -d $pcre ]; then
+  tar -xzf $pcre.tar.gz
+else echo "File name $pcre already exists"
+fi
 
-cd $srcdir/$NGINX_VERSION
+if [ ! -f $zlib.tar.gz ] && [ ! -d $zlib ]; then
+  # zlib version 1.2.11
+  $wget https://www.zlib.net/$zlib.tar.gz && tar -xzf $zlib.tar.gz
+elif [ ! -d $zlib ]; then
+  tar -xzf $zlib.tar.gz
+else echo "File name $zlib already exists"
+fi
+
+if [ ! -f $openssl.tar.gz ] && [ ! -d $openssl ]; then
+  # OpenSSL version 1.1.1
+  $wget https://www.openssl.org/source/$openssl.tar.gz && tar -xzf $openssl.tar.gz
+elif [ ! -d $openssl ]; then
+  tar -xzf $openssl.tar.gz
+else echo "File name $openssl already exists"
+fi
+
+if [ ! -f v$fancyindex.tar.gz ] && [ ! -d v$fancyindex ]; then
+  # ngx_fancyindex 0.4.3
+  $wget https://github.com/aperezdc/ngx-fancyindex/archive/v$fancyindex.tar.gz && tar -zxf v$fancyindex.tar.gz
+elif [ ! -d v$fancyindex ]; then
+  tar -zxf v$fancyindex.tar.gz
+else echo "File name $fancyindex already exists"
+fi
+
+# Build latest OpenSSL from source
+
+if [ ! -d $osslSrcDir ]; then
+  mkdir -p $osslSrcDir && cd $osslSrcDir
+else cd $osslSrcDir
+  echo "Directory $nginxSrcDir already exists"
+fi
+
+./configure
+# ./Configure linux-x86_64 --prefix=/usr/local --openssldir=/usr/local
+make -j $cpuNum
+make install
+
+export LD_LIBRARY_PATH=/usr/local/lib
+
+if [ ! pwd == $nginxSrcDir/$nginxVer ]; then
+cd $nginxSrcDir/$nginxVer
+else echo "Already in $nginxSrcDir/$nginxVer"
+fi
 
 ./configure --prefix=/etc/nginx \
             --sbin-path=/usr/sbin/nginx \
@@ -90,17 +169,16 @@ cd $srcdir/$NGINX_VERSION
             --lock-path=/var/run/nginx.lock \
             --user=nginx \
             --group=nginx \
-            --build=Ubuntu \
-            --builddir=$NGINX_VERSION \
+            --build=CentOS \
+            --builddir=$nginxVer \
             --with-select_module \
             --with-poll_module \
             --with-threads \
             --with-file-aio \
-	    --add-module=../$nps_dir \
+	    --add-module=../incubator-pagespeed-ngx-$npsVer \
             --with-http_ssl_module \
             --with-http_v2_module \
             --with-http_realip_module \
-	    --add-module=../ngx_cache_purge-2.3 \
 	    --add-dynamic-module=../ngx-fancyindex-$fancyindex \
             --with-http_addition_module \
             --with-http_xslt_module=dynamic \
@@ -138,27 +216,31 @@ cd $srcdir/$NGINX_VERSION
             --with-openssl=../$openssl \
             --with-openssl-opt=no-nextprotoneg
 
-make
+make -j $cpuNum
 make install
 
-wget -O /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/ubuntu/init.d --tries=3
+$wget -O /etc/init.d/nginx https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/ubuntu/init.d --tries=3
 
-mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/ubuntu/nginx.conf --tries=3
+$wget -O /lib/systemd/system/nginx.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/nginx.service --tries=3
+
+mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak && $wget -O /etc/nginx/nginx.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/ubuntu/nginx.conf --tries=3
 
 ln -s /usr/lib64/nginx/modules /etc/nginx/modules
 
-wget -O /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/dynamic-modules.conf --tries=3
+$wget -O /etc/nginx/dynamic-modules.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/dynamic-modules.conf --tries=3
 
 mkdir -p /etc/nginx/{sites-available,sites-enabled} /usr/share/nginx/html /var/www
 chown -R nginx:nginx /usr/share/nginx/html /var/www
 find /usr/share/nginx/html /var/www -type d -exec chmod 755 {} \;
 find /usr/share/nginx/html /var/www -type f -exec chmod 644 {} \;
 
-wget -O /etc/nginx/sites-available/default.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/default.conf --tries=3
+$wget -O /etc/nginx/sites-available/default.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/default.conf --tries=3
 
-wget -O /etc/nginx/sites-available/example.com.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/example.com.conf --tries=3
+$wget -O /etc/nginx/sites-available/example.com.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/nginx/example.com.conf --tries=3
 
 cp /etc/nginx/html/* /usr/share/nginx/html/
+
+systemctl daemon-reload
 
 mkdir -p /var/cache/nginx && nginx -t
 
@@ -176,11 +258,133 @@ chown -R nobody:nogroup /var/ngx_pagespeed_cache
 systemctl restart nginx
 
 mkdir ~/.vim/
-cp -r $srcdir/$NGINX_VERSION/contrib/vim/* ~/.vim/
+cp -r $nginxSrcDir/$nginxVer/contrib/vim/* ~/.vim/
 
-nginx -V
+nginxEndTime=$(date +%s)
 
-cd
+###
+# PHP installation
+
+echo "LEMP Auto Installer `date`"
+  echo "*************************************************"
+  echo "* LEMP Auto Installer PHP" $boldgreen
+  echo "*************************************************"
+
+apt install -y libbz2-dev libcurl4-openssl-dev libenchant-dev libgmp3-dev libc-client2007e-dev
+  
+if [ ! -d $phpSrcDir ]; then
+  mkdir -p $phpSrcDir && cd $phpSrcDir
+else cd $phpSrcDir
+fi
+
+# PHP version PHP-7.2.11
+
+if [ ! -f $phpVer.tar.gz ] && [ ! -d $phpVer ]; then
+  $wget -O $phpVer.tar.gz http://de2.php.net/get/$phpVer.tar.gz/from/this/mirror && tar -zxf $phpVer.tar.gz
+elif [ ! -d $phpVer ]; then
+  tar -zxf $phpVer.tar.gz
+else echo "File $phpVer already exists"
+fi
+
+if [ ! pwd == $phpVer ]; then
+  cd $phpVer
+else echo "Already in directory $phpVer"
+fi
+
+ln -s /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a
+
+./buildconf --force
+
+./configure  \
+--prefix=/usr/local/php \
+--enable-fpm \
+--enable-intl \
+--enable-pcntl \
+--with-mcrypt \
+--with-snmp \
+--with-mhash \
+--with-zlib \
+--with-gettext \
+--enable-exif \
+--enable-zip \
+--with-bz2 \
+--enable-soap \
+--enable-sockets \
+--enable-sysvmsg \
+--enable-sysvsem \
+--enable-sysvshm \
+--enable-shmop \
+--with-pear \
+--enable-mbstring \
+--with-openssl \
+--with-mysql=mysqlnd \
+--with-libdir=lib64 \
+--with-mysqli=mysqlnd \
+--with-mysql-sock=/var/lib/mysql/mysql.sock \
+--with-curl \
+--with-gd \
+--with-xmlrpc \
+--enable-bcmath \
+--enable-calendar \
+--enable-ftp \
+--enable-gd-native-ttf \
+--with-freetype-dir=/usr \
+--with-jpeg-dir=/usr \
+--with-png-dir=/usr \
+--with-xpm-dir=/usr \
+--with-vpx-dir=/usr \
+--with-t1lib=/usr \
+--enable-pdo \
+--with-pdo-sqlite \
+--with-pdo-mysql=mysqlnd \
+--enable-inline-optimization \
+--with-imap \
+--with-imap-ssl \
+--with-kerberos \
+--with-readline \
+--with-libedit \
+--with-gmp \
+--with-pspell \
+--with-tidy \
+--with-enchant \
+--with-fpm-user=nginx \
+--with-fpm-group=nginx \
+--disable-fileinfo
+
+make clean
+make -j $cpuNum
+make install
+
+$wget -O /usr/local/php/etc/php-fpm.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.conf
+
+$wget -O /usr/local/php/etc/php-fpm.d/www.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/www.conf
+
+$wget -O /usr/local/php/lib/php.ini https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php.ini
+
+$wget -O /usr/lib/systemd/system/php-fpm.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.service
+
+mkdir -p /var/run/php-fpm/
+
+cat <<EOF >> .bash_profile
+PATH=$PATH:/usr/local/php/bin/
+export PATH
+PATH=$PATH:/usr/local/php/sbin/
+export PATH
+EOF
+
+systemctl daemon-reload
+
+systemctl start php-fpm && systemctl enable php-fpm
+
+phpEndTime=$(date +%s)
+
+###
+# MariaDB Install
+
+echo "LEMP Auto Installer `date`"
+  echo "*************************************************"
+  echo "* LEMP Auto Installer MariaDB" $boldgreen
+  echo "*************************************************"
 
 apt install -y mariadb-server
 
@@ -188,10 +392,3 @@ systemctl start mysql.service
 systemctl enable mysql.service
 
 sudo /usr/bin/mysql_secure_installation
-
-cd 
-
-apt-get -y install php7.1 php7.1-cli php7.1-common php7.1-mbstring php7.1-gd php7.0-xml php7.1-fpm php7.1-opcache php7.1-mysql
-
-systemctl restart nginx.service php7.1-fpm.service
-systemctl enable php7.1-fpm.service
