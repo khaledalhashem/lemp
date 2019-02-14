@@ -361,7 +361,7 @@ $wget -O /usr/local/php/etc/php-fpm.d/www.conf https://raw.githubusercontent.com
 
 $wget -O /usr/local/php/lib/php.ini https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php.ini
 
-$wget -O /etc/systemd/system/php-fpm.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php.ini
+$wget -O /etc/systemd/system/php-fpm.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/php-fpm.service
 
 cp /usr/local/src/php/$phpVer/sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
 
