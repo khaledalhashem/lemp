@@ -47,8 +47,18 @@ apt-get -y install wget zlib1g-dev libpcre3 libpcre3-dev uuid-dev perl perl-modu
 
 apt-get -y install software-properties-common
 
-apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://mirror.jmu.edu/pub/mariadb/repo/10.1/ubuntu xenial main'
+# apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+# add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://mirror.jmu.edu/pub/mariadb/repo/10.1/ubuntu xenial main'
+
+sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mirrors.n-ix.net/mariadb/repo/10.3/ubuntu bionic main'
+
+cat <<EOF >> /etc/apt/sources.list.d/mariadb.list
+# MariaDB 10.3 repository list - created 2019-02-15 11:14 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+deb [arch=amd64,arm64,ppc64el] http://mirrors.n-ix.net/mariadb/repo/10.3/ubuntu bionic main
+deb-src http://mirrors.n-ix.net/mariadb/repo/10.3/ubuntu bionic main
+EOF
 
 apt-get update
 
@@ -355,13 +365,13 @@ make clean
 make -j $cpuNum
 make install
 
-$wget -O /usr/local/php/etc/php-fpm.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.conf
+$wget -O /usr/local/php/etc/php-fpm.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/debian/php-fpm.conf
 
-$wget -O /usr/local/php/etc/php-fpm.d/www.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/www.conf
+$wget -O /usr/local/php/etc/php-fpm.d/www.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/debian/www.conf
 
-$wget -O /usr/local/php/lib/php.ini https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php.ini
+$wget -O /usr/local/php/lib/php.ini https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/debian/php.ini
 
-$wget -O /etc/systemd/system/php-fpm.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/php-fpm.service
+$wget -O /etc/systemd/system/php-fpm.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/debian/php-fpm.service
 
 cp /usr/local/src/php/$phpVer/sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
 
