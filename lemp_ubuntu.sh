@@ -386,6 +386,9 @@ PATH=$PATH:/usr/local/php/sbin/
 export PATH
 EOF
 
+ln -s /usr/local/php/bin/php /usr/bin/php
+ln -s /usr/local/php/sbin/php-fpm /usr/sbin/php-fpm
+
 systemctl daemon-reload
 
 systemctl start php-fpm && systemctl enable php-fpm
