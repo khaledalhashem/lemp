@@ -5,9 +5,9 @@ Automatically builds a lightweight LEMP stack from source with useful modules. M
 Modules
 --------
 
-- nginx-1.15.5
-- php-7.2
-- mariadb-10.3
+- nginx-1.15.8
+- php-7.2.15
+- mariadb-10.3.12
 - Built on Centos 7.x && Ubuntu 16.04 / 18.04 (_Should work on CentOS 6.x && Ubuntu 14.04 but not tested!)
 
 Installation
