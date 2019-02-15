@@ -1,7 +1,7 @@
 #!/bin/bash
 ####################################
 #
-# Auto nginx_custom install
+# Auto LEMP custom install
 #
 ####################################
 
