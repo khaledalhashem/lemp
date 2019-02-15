@@ -34,7 +34,7 @@ zlib='zlib-1.2.11'
 openssl='openssl-1.1.1'
 frickle='2.3'
 fancyindex='0.4.3'
-phpVer='php-7.2.11'
+phpVer='php-7.2.15'
 cpuNum=$(cat /proc/cpuinfo | grep processor | wc -l)
 
 boldgreen='\E[1;32;40m'
