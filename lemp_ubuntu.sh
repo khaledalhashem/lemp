@@ -318,12 +318,14 @@ ln -s /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a
 --enable-exif \
 --enable-zip \
 --with-bz2 \
+--with-mime-magic \
 --enable-soap \
 --enable-sockets \
 --enable-sysvmsg \
 --enable-sysvsem \
 --enable-sysvshm \
 --enable-shmop \
+--enable-calendar \
 --with-pear \
 --enable-mbstring \
 --with-openssl \
@@ -359,7 +361,6 @@ ln -s /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a
 --with-enchant \
 --with-fpm-user=nginx \
 --with-fpm-group=nginx \
---disable-fileinfo
 
 make clean
 make -j $cpuNum
@@ -387,6 +388,12 @@ export PATH
 EOF
 
 ln -s /usr/local/php/bin/php /usr/bin/php
+ln -s /usr/local/php/bin/php-cgi /usr/bin/php-cgi
+ln -s /usr/local/php/bin/php-config /usr/bin/php-config
+ln -s /usr/local/php/bin/phpize /usr/bin/phpize
+ln -s /usr/local/php/bin/phar.phar /usr/bin/phar
+ln -s /usr/local/php/bin/pear /usr/bin/pear
+ln -s /usr/local/php/bin/phpdbg /usr/bin/phpdbg
 ln -s /usr/local/php/sbin/php-fpm /usr/sbin/php-fpm
 
 systemctl daemon-reload
