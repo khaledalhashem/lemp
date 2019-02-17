@@ -397,6 +397,29 @@ ln -s /usr/local/php/bin/pear /usr/bin/pear
 ln -s /usr/local/php/bin/phpdbg /usr/bin/phpdbg
 ln -s /usr/local/php/sbin/php-fpm /usr/sbin/php-fpm
 
+# Imagick Install
+
+cd /usr/local/src
+wget "http://www.imagemagick.org/download/ImageMagick.tar.gz"
+tar -zxvf ImageMagick.tar.gz
+cd ImageMagick-7.0.7-28
+./configure
+make -j 8
+make install
+
+wget https://pecl.php.net/get/imagick
+tar -zxvf imagick
+cd imagick-3.4.3
+
+/usr/bin/phpize
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+ln -s /usr/local/include/ImageMagick-7 /usr/local/include/ImageMagick
+./configure --prefix=/usr/local --with-imagick=/usr/local
+make -j 8
+make install
+
+echo "extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20170718/imagick.so" >> /usr/local/php/lib/php.ini
+
 systemctl daemon-reload
 
 systemctl start php-fpm && systemctl enable php-fpm
