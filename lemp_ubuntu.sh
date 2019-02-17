@@ -43,7 +43,7 @@ export LC_ALL="en_US.UTF-8"
 
 apt-get update && apt-get -y upgrade
 apt-get -y install build-essential
-apt-get -y install wget zlib1g-dev libpcre3 libpcre3-dev uuid-dev perl perl-modules libxslt-dev libgd-dev libgeoip-dev unzip
+apt-get -y install wget zlib1g-dev libpcre3 libpcre3-dev uuid-dev perl perl-modules libxslt-dev libgd-dev libgeoip-dev unzip redis
 
 apt-get -y install software-properties-common
 
@@ -397,15 +397,26 @@ ln -s /usr/local/php/bin/pear /usr/bin/pear
 ln -s /usr/local/php/bin/phpdbg /usr/bin/phpdbg
 ln -s /usr/local/php/sbin/php-fpm /usr/sbin/php-fpm
 
-# Imagick Install
+# Redis PHP Module
+
+cd /usr/local/src
+wget https://pecl.php.net/get/redis
+/usr/bin/phpize
+tar -zxvf redis
+cd redis-4.2.0
+./configure
+make -j 8 && make install
+
+echo "extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20170718/redis.so" >> /usr/local/php/lib/php.ini
+
+# Imagick PHP Module
 
 cd /usr/local/src
 wget "http://www.imagemagick.org/download/ImageMagick.tar.gz"
 tar -zxvf ImageMagick.tar.gz
 cd ImageMagick-7.0.7-28
 ./configure
-make -j 8
-make install
+make -j 8 && make install
 
 wget https://pecl.php.net/get/imagick
 tar -zxvf imagick
@@ -415,8 +426,7 @@ cd imagick-3.4.3
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 ln -s /usr/local/include/ImageMagick-7 /usr/local/include/ImageMagick
 ./configure --prefix=/usr/local --with-imagick=/usr/local
-make -j 8
-make install
+make -j 8 && make install
 
 echo "extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20170718/imagick.so" >> /usr/local/php/lib/php.ini
 
