@@ -369,9 +369,9 @@ $wget -O /usr/local/php/etc/php-fpm.conf https://raw.githubusercontent.com/khale
 
 $wget -O /usr/local/php/etc/php-fpm.d/www.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/debian/www.conf
 
-# $wget -O /usr/local/php/lib/php.ini https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/debian/php.ini
+$wget -O /usr/local/php/lib/php.ini https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/debian/php.ini
 
-$wget -O /usr/local/php/lib/php.ini https://raw.githubusercontent.com/php/php-src/master/php.ini-production
+# $wget -O /usr/local/php/lib/php.ini https://raw.githubusercontent.com/php/php-src/master/php.ini-production
 
 $wget -O /etc/systemd/system/php-fpm.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/debian/php-fpm.service
 
