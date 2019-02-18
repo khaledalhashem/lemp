@@ -399,7 +399,11 @@ ln -s /usr/local/php/sbin/php-fpm /usr/sbin/php-fpm
 
 # Redis PHP Module
 
-cd /usr/local/src
+if [ ! -d $phpSrcDir ]; then
+  mkdir -p $phpSrcDir && cd $phpSrcDir
+else cd $phpSrcDir
+fi
+
 wget https://pecl.php.net/get/redis
 /usr/bin/phpize
 tar -zxvf redis
@@ -411,12 +415,21 @@ echo "extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20170718/re
 
 # Imagick PHP Module
 
-cd /usr/local/src
+if [ ! -d $phpSrcDir ]; then
+  mkdir -p $phpSrcDir && cd $phpSrcDir
+else cd $phpSrcDir
+fi
+
 wget "http://www.imagemagick.org/download/ImageMagick.tar.gz"
 tar -zxvf ImageMagick.tar.gz
 cd ImageMagick-7.0.7-28
 ./configure
 make -j 8 && make install
+
+if [ ! -d $phpSrcDir ]; then
+  mkdir -p $phpSrcDir && cd $phpSrcDir
+else cd $phpSrcDir
+fi
 
 wget https://pecl.php.net/get/imagick
 tar -zxvf imagick
