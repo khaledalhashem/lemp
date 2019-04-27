@@ -258,3 +258,30 @@ cp -r $nginxSrcDir/$nginxVer/contrib/vim/* ~/.vim/
 nginxEndTime=$(date +%s)
 
 ###
+
+# MariaDB Install
+
+echo "LEMP Auto Installer `date`"
+  echo "*************************************************"
+  echo "* LEMP Auto Installer MariaDB" $boldgreen
+  echo "*************************************************"
+
+cat <<EOF >> /etc/yum.repos.d/MariaDB.repo
+# MariaDB 10.3 CentOS repository list
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.3/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+EOF
+
+yum -y install MariaDB-server MariaDB-client
+
+systemctl start mariadb
+systemctl enable mariadb
+
+mdbEndTime=$(date +%s)
+totalEndTime=$(date +%s)
+
+/usr/bin/mysql_secure_installation
