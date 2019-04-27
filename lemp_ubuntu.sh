@@ -21,7 +21,6 @@ wget='wget -qnc --tries=3'
 pkgname='lemp'
 nginxSrcDir='/usr/local/src/nginx'
 phpSrcDir='/usr/local/src/php'
-osslSrcDir='/usr/local/src/$(openssl)'
 nginxVer='nginx-1.15.8' # [check nginx's site http://nginx.org/en/download.html for the latest version]
 npsVer='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
@@ -32,6 +31,7 @@ depends=('pcre' 'zlib' 'openssl')
 pcre='pcre-8.42'
 zlib='zlib-1.2.11'
 openssl='openssl-1.1.1'
+osslSrcDir='/usr/local/src/$openssl'
 frickle='2.3'
 fancyindex='0.4.3'
 phpVer='php-7.2.15'
