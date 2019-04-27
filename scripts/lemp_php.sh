@@ -71,6 +71,11 @@ elif [ ! -d $redisVer ]; then
 ele echo "File $redisVer already exists"
 fi
 
+if [ ! pwd == $redisVer ]; then
+  cd $redisVer
+else echo "Already in directory $redisVer"
+fi
+
 make -j $cpuNum
 make install
 
