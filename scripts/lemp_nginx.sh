@@ -1,7 +1,7 @@
 #!/bin/bash
 ####################################
 #
-# Auto lemp install
+# Auto fragmented lemp install
 #
 ####################################
 
@@ -11,9 +11,9 @@
 # Copy and paste the following line into your terminal to auto-start the installation
 # yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemp_centos.sh && bash -x lemp_centos.sh 2>&1 | tee lemp.log
 
-echo "LEMP Auto Installer `date`"
+echo "LEMP Auto fragmented Installer `date`"
   echo "*************************************************"
-  echo "* LEMP Auto Installer Started" $boldgreen
+  echo "* LEMP Auto fragmented Installer Started" $boldgreen
   echo "*************************************************"
 
 startTime=$(date +%s)
