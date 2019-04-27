@@ -21,7 +21,6 @@ wget='wget -qnc --tries=3'
 pkgname='lemp'
 nginxSrcDir='/usr/local/src/nginx'
 phpSrcDir='/usr/local/src/php'
-osslSrcDir='/usr/local/src/$(openssl)'
 redisSrcDir='/usr/local/src/redis'
 nginxVer='nginx-1.15.11' # [check nginx's site http://nginx.org/en/download.html for the latest version]
 npsVer='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
@@ -34,6 +33,7 @@ depends=('pcre' 'zlib' 'openssl')
 pcre='pcre-8.42'
 zlib='zlib-1.2.11'
 openssl='openssl-1.1.1'
+osslSrcDir='/usr/local/src/$openssl'
 fancyindex='0.4.3'
 phpVer='php-7.2.17'
 cpuNum=$(cat /proc/cpuinfo | grep processor | wc -l)i
