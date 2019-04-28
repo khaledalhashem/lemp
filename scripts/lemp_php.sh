@@ -58,6 +58,7 @@ boldcyan='\E[1;36;40m'
 boldwhite='\E[1;37;40m'
 
 useradd --system --home /dev/null --shell /sbin/nologin --comment "redis user" --user-group redis
+usermod -aG nginx redis
 yum -y install bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-devel libicu-devel aspell-devel libedit-devel net-snmp-devel libtidy-devel uw-imap-devel
 
 if [ ! -d $redisSrcDir ]; then
@@ -82,6 +83,8 @@ make install
 
 mkdir /etc/redis
 mkdir -p /var/redis
+mkdir -p /var/run/redis
+chown redis:nginx /var/run/redis
 cp redis.conf /etc/redis
 
 cat <<EOF >> /etc/systemd/system/redis.service
@@ -90,8 +93,8 @@ Description=Redis In-Memory Data Store
 After=network.target
 
 [Service]
-User=root
-Group=root
+User=redis
+Group=redis
 ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf
 ExecStop=/usr/local/bin/redis-cli shutdown
 Restart=always
