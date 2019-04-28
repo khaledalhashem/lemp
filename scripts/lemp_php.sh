@@ -57,6 +57,7 @@ boldmagenta='\E[1;35;40m'
 boldcyan='\E[1;36;40m'
 boldwhite='\E[1;37;40m'
 
+useradd --system --home /dev/null --shell /sbin/nologin --comment "redis user" --user-group redis
 yum -y install bzip2-devel libcurl-devel enchant-devel gmp-devel libc-client-devel libicu-devel aspell-devel libedit-devel net-snmp-devel libtidy-devel uw-imap-devel
 
 if [ ! -d $redisSrcDir ]; then
