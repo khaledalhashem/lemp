@@ -155,11 +155,24 @@ fi
 if [ ! -d $osslSrcDir ]; then
   mkdir -p $osslSrcDir && cd $osslSrcDir
 else cd $osslSrcDir
-  echo "Directory $nginxSrcDir already exists"
+  echo "Directory $osslSrcDir already exists"
 fi
 
-./configure
-# ./Configure linux-x86_64 --prefix=/usr/local --openssldir=/usr/local
+if [ ! -f $openssl.tar.gz ] && [ ! -d $openssl ]; then
+  # OpenSSL version 1.1.1
+  $wget https://www.openssl.org/source/$openssl.tar.gz && tar -xzf $openssl.tar.gz
+elif [ ! -d $openssl ]; then
+  tar -xzf $openssl.tar.gz
+else echo "File name $openssl already exists"
+fi
+
+if [ ! -d $openssl ]; then
+  mkdir -p $openssl && cd $openssl
+else cd $openssl
+  echo "Directory $openssl already exists"
+fi
+
+./Configure linux-x86_64 --prefix=/usr/local --openssldir=/usr/local
 make -j $cpuNum
 make install
 
@@ -223,7 +236,7 @@ fi
             --with-pcre=../$pcre \
             --with-pcre-jit \
             --with-zlib=../$zlib \
-            --with-openssl=../$openssl \
+            --with-openssl=/usr/local/ssl \
             --with-openssl-opt=no-nextprotoneg
 
 make -j $cpuNum
@@ -327,7 +340,7 @@ ln -s /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a
 --enable-shmop \
 --with-pear \
 --enable-mbstring \
---with-openssl \
+--with-openssl=/usr/local/ssl \
 --with-mysql=mysqlnd \
 --with-libdir=lib \
 --with-mysqli=mysqlnd \
