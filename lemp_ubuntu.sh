@@ -41,6 +41,7 @@ boldgreen='\E[1;32;40m'
 
 export LC_ALL="en_US.UTF-8"
 
+sudo add-apt-repository multiverse
 apt-get update && apt-get -y upgrade
 apt-get -y install build-essential
 apt-get -y install wget zlib1g-dev libpcre3 libpcre3-dev uuid-dev perl perl-modules libxslt-dev libgd-dev libgeoip-dev unzip redis
@@ -421,6 +422,7 @@ wget https://pecl.php.net/get/redis
 /usr/bin/phpize
 tar -zxvf redis
 cd redis-4.2.0
+/usr/bin/phpize
 ./configure
 make -j 8 && make install
 
