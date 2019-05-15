@@ -11,9 +11,6 @@
 # Copy and paste the following line into your terminal to auto-start the installation
 # yum -y update && curl -O https://raw.githubusercontent.com/khaledalhashem/lemp/master/lemp_centos.sh && chmod 0700 lemp_centos.sh && bash -x lemp_centos.sh 2>&1 | tee lemp.log
 
-echo "php Auto Installer `date`"
-
-startTime=$(date +%s)
 wget='wget -qnc --tries=3'
 pkgname='lemp'
 nginxSrcDir='/usr/local/src/nginx'
@@ -39,8 +36,6 @@ systemctl disable php-fpm
 rm -rf /usr/local/src/php
 
 # PHP installation
-
-echo "LEMP Auto Installer `date`"
 
 if [ ! -d $phpSrcDir ]; then
   mkdir -p $phpSrcDir && cd $phpSrcDir
@@ -126,7 +121,5 @@ make install
 systemctl daemon-reload
 
 systemctl start php-fpm && systemctl enable php-fpm
-
-phpEndTime=$(date +%s)
 
 cd
