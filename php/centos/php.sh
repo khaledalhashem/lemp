@@ -127,8 +127,8 @@ mv /tmp/php-fpm.conf /usr/local/php/etc/
 mv /tmp/www.conf /usr/local/php/etc/php-fpm.d/
 mv /tmp/php.ini /usr/local/php/lib/
 
+cp /usr/local/php/bin/php /usr/sbin/php
+
 systemctl daemon-reload
 
 systemctl start php-fpm && systemctl enable php-fpm
-
-cd
