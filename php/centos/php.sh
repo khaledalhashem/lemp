@@ -33,7 +33,12 @@ cpuNum=$(cat /proc/cpuinfo | grep processor | wc -l)i
 systemctl stop php-fpm
 systemctl disable php-fpm
 
+mv /usr/local/php/etc/php-fpm.conf /tmp
+mv /usr/local/php/etc/php-fpm.d/www.conf /tmp
+mv /usr/local/php/lib/php.ini /tmp
+
 rm -rf /usr/local/src/php
+rm -rf /usr/bin/php /usr/lib64/php /etc/php.d /usr/local/php
 
 # PHP installation
 
@@ -117,6 +122,10 @@ fi
 make clean
 make -j $cpuNum
 make install
+
+mv /tmp/php-fpm.conf /usr/local/php/etc/
+mv /tmp/www.conf /usr/local/php/etc/php-fpm.d/
+mv /tmp/php.ini /usr/local/php/lib/
 
 systemctl daemon-reload
 
