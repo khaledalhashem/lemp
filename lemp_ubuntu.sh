@@ -173,11 +173,11 @@ else cd $openssl
   echo "Directory $openssl already exists"
 fi
 
-./Configure linux-x86_64 --prefix=/usr/local --openssldir=/usr/local
+./Configure linux-x86_64 --prefix=/usr/local --openssldir=/usr/local/ssl
 make -j $cpuNum
 make install
 
-export LD_LIBRARY_PATH=/usr/local/lib
+export LD_LIBRARY_PATH=/usr/local/bin/openssl
 
 if [ ! pwd == $nginxSrcDir/$nginxVer ]; then
 cd $nginxSrcDir/$nginxVer
@@ -237,7 +237,7 @@ fi
             --with-pcre=../$pcre \
             --with-pcre-jit \
             --with-zlib=../$zlib \
-            --with-openssl=/usr/local/ssl \
+            --with-openssl=/usr/local/src/openssl/$openssl \
             --with-openssl-opt=no-nextprotoneg
 
 make -j $cpuNum
