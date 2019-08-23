@@ -1,7 +1,7 @@
 #!/bin/bash
 ####################################
 #
-# Auto LEMP custom install
+# Auto nginx_custom install
 #
 ####################################
 
@@ -21,7 +21,8 @@ wget='wget -qnc --tries=3'
 pkgname='lemp'
 nginxSrcDir='/usr/local/src/nginx'
 phpSrcDir='/usr/local/src/php'
-nginxVer='nginx-1.16.0' # [check nginx's site http://nginx.org/en/download.html for the latest version]
+osslSrcDir='/usr/local/src/openssl'
+nginxVer='nginx-1.17.3' # [check nginx's site http://nginx.org/en/download.html for the latest version]
 npsVer='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
@@ -30,36 +31,30 @@ license=('custom')
 depends=('pcre' 'zlib' 'openssl')
 pcre='pcre-8.42'
 zlib='zlib-1.2.11'
-openssl='openssl-1.1.1'
-osslSrcDir='/usr/local/src/openssl'
+openssl='openssl-1.1.1c'
 frickle='2.3'
 fancyindex='0.4.3'
-phpVer='php-7.3.4'
+phpVer='php-7.3.7'
 cpuNum=$(cat /proc/cpuinfo | grep processor | wc -l)
 
 boldgreen='\E[1;32;40m'
 
 export LC_ALL="en_US.UTF-8"
 
-sudo add-apt-repository multiverse
 apt-get update && apt-get -y upgrade
 apt-get -y install build-essential
-apt-get -y install wget zlib1g-dev libpcre3 libpcre3-dev uuid-dev perl perl-modules libxslt-dev libgd-dev libgeoip-dev unzip redis
+apt-get -y install wget zlib1g-dev libpcre3 libpcre3-dev uuid-dev perl perl-modules libxslt-dev libgd-dev libgeoip-dev unzip autoconf
+
+## Ubuntu Bionic Mariadb Repo's
 
 apt-get -y install software-properties-common
-
-# apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-# add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://mirror.jmu.edu/pub/mariadb/repo/10.1/ubuntu xenial main'
-
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-# add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mirrors.n-ix.net/mariadb/repo/10.3/ubuntu bionic main'
+add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mirrors.n-ix.net/mariadb/repo/10.4/ubuntu bionic main'
 
-cat <<EOF >> /etc/apt/sources.list.d/mariadb.list
-# MariaDB 10.3 repository list - created 2019-02-15 11:14 UTC
-# http://downloads.mariadb.org/mariadb/repositories/
-deb [arch=amd64,arm64,ppc64el] http://mirrors.n-ix.net/mariadb/repo/10.3/ubuntu bionic main
-deb-src http://mirrors.n-ix.net/mariadb/repo/10.3/ubuntu bionic main
-EOF
+## Debian Buster Mariadb Repo's
+
+# apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xF1656F24C74CD1D8
+# add-apt-repository 'deb [arch=amd64] http://mirrors.n-ix.net/mariadb/repo/10.4/debian buster main'
 
 apt-get update
 
@@ -156,28 +151,15 @@ fi
 if [ ! -d $osslSrcDir ]; then
   mkdir -p $osslSrcDir && cd $osslSrcDir
 else cd $osslSrcDir
-  echo "Directory $osslSrcDir already exists"
+  echo "Directory $nginxSrcDir already exists"
 fi
 
-if [ ! -f $openssl.tar.gz ] && [ ! -d $openssl ]; then
-  # OpenSSL version 1.1.1
-  $wget https://www.openssl.org/source/$openssl.tar.gz && tar -xzf $openssl.tar.gz
-elif [ ! -d $openssl ]; then
-  tar -xzf $openssl.tar.gz
-else echo "File name $openssl already exists"
-fi
-
-if [ ! -d $openssl ]; then
-  mkdir -p $openssl && cd $openssl
-else cd $openssl
-  echo "Directory $openssl already exists"
-fi
-
-./Configure linux-x86_64 --prefix=/usr/local --openssldir=/usr/local/ssl
+./configure
+# ./Configure linux-x86_64 --prefix=/usr/local --openssldir=/usr/local
 make -j $cpuNum
 make install
 
-export LD_LIBRARY_PATH=/usr/local/bin/openssl
+export LD_LIBRARY_PATH=/usr/local/lib
 
 if [ ! pwd == $nginxSrcDir/$nginxVer ]; then
 cd $nginxSrcDir/$nginxVer
@@ -193,7 +175,7 @@ fi
             --lock-path=/var/run/nginx.lock \
             --user=nginx \
             --group=nginx \
-            --build=Debian \
+            --build=Ubuntu \
             --builddir=$nginxVer \
             --with-select_module \
             --with-poll_module \
@@ -237,7 +219,7 @@ fi
             --with-pcre=../$pcre \
             --with-pcre-jit \
             --with-zlib=../$zlib \
-            --with-openssl=/usr/local/src/openssl/$openssl \
+            --with-openssl=../$openssl \
             --with-openssl-opt=no-nextprotoneg
 
 make -j $cpuNum
@@ -294,7 +276,7 @@ echo "LEMP Auto Installer `date`"
   echo "* LEMP Auto Installer PHP" $boldgreen
   echo "*************************************************"
 
-apt install -y libbz2-dev libzip-dev libcurl4-openssl-dev libenchant-dev libgmp3-dev libc-client2007e-dev libkrb5-dev libpspell-dev libedit-dev libsnmp-dev libtidy-dev snmp-mibs-downloader
+apt install -y libbz2-dev libcurl4-openssl-dev libenchant-dev libgmp3-dev libc-client2007e-dev libpspell-dev libedit-dev libsnmp-dev libtidy-dev libzip-dev libkrb5-dev
   
 if [ ! -d $phpSrcDir ]; then
   mkdir -p $phpSrcDir && cd $phpSrcDir
@@ -332,7 +314,6 @@ ln -s /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a
 --enable-exif \
 --enable-zip \
 --with-bz2 \
---with-mime-magic \
 --enable-soap \
 --enable-sockets \
 --enable-sysvmsg \
@@ -341,7 +322,7 @@ ln -s /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a
 --enable-shmop \
 --with-pear \
 --enable-mbstring \
---with-openssl=/usr/local/ssl \
+--with-openssl \
 --with-mysql=mysqlnd \
 --with-libdir=lib \
 --with-mysqli=mysqlnd \
@@ -374,26 +355,23 @@ ln -s /usr/lib/libc-client.a /usr/lib/x86_64-linux-gnu/libc-client.a
 --with-enchant \
 --with-fpm-user=nginx \
 --with-fpm-group=nginx \
+--disable-fileinfo
 
 make clean
 make -j $cpuNum
 make install
 
-$wget -O /usr/local/php/etc/php-fpm.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/debian/php-fpm.conf
+$wget -O /usr/local/php/etc/php-fpm.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.conf
 
-$wget -O /usr/local/php/etc/php-fpm.d/www.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/debian/www.conf
+$wget -O /usr/local/php/etc/php-fpm.d/www.conf https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/www.conf
 
-$wget -O /usr/local/php/lib/php.ini https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/debian/php.ini
+$wget -O /usr/local/php/lib/php.ini https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php.ini
 
-# $wget -O /usr/local/php/lib/php.ini https://raw.githubusercontent.com/php/php-src/master/php.ini-production
+# $wget -O /usr/lib/systemd/system/php-fpm.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/centos/php-fpm.service
 
-$wget -O /etc/systemd/system/php-fpm.service https://raw.githubusercontent.com/khaledalhashem/lemp/master/php/debian/php-fpm.service
+cp /usr/local/src/php/php-7.3.7/sapi/fpm/php-fpm.service /etc/systemd/system/
 
-cp /usr/local/src/php/$phpVer/sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
-
-chmod 755 /etc/init.d/php-fpm
-
-mkdir -p /var/run/php-fpm/
+# mkdir -p /var/run/php-fpm/
 
 cat <<EOF >> .bash_profile
 PATH=$PATH:/usr/local/php/bin/
@@ -402,67 +380,13 @@ PATH=$PATH:/usr/local/php/sbin/
 export PATH
 EOF
 
-ln -s /usr/local/php/bin/php /usr/bin/php
-ln -s /usr/local/php/bin/php-cgi /usr/bin/php-cgi
-ln -s /usr/local/php/bin/php-config /usr/bin/php-config
-ln -s /usr/local/php/bin/phpize /usr/bin/phpize
-ln -s /usr/local/php/bin/phar.phar /usr/bin/phar
-ln -s /usr/local/php/bin/pear /usr/bin/pear
-ln -s /usr/local/php/bin/phpdbg /usr/bin/phpdbg
-ln -s /usr/local/php/sbin/php-fpm /usr/sbin/php-fpm
-
-# Redis PHP Module
-
-if [ ! -d $phpSrcDir ]; then
-  mkdir -p $phpSrcDir && cd $phpSrcDir
-else cd $phpSrcDir
-fi
-
-wget https://pecl.php.net/get/redis
-/usr/bin/phpize
-tar -zxvf redis
-cd redis-4.2.0
-/usr/bin/phpize
-./configure
-make -j 8 && make install
-
-echo "extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20170718/redis.so" >> /usr/local/php/lib/php.ini
-
-# Imagick PHP Module
-
-if [ ! -d $phpSrcDir ]; then
-  mkdir -p $phpSrcDir && cd $phpSrcDir
-else cd $phpSrcDir
-fi
-
-wget "http://www.imagemagick.org/download/ImageMagick.tar.gz"
-tar -zxvf ImageMagick.tar.gz
-cd ImageMagick-7.0.7-28
-./configure
-make -j 8 && make install
-
-if [ ! -d $phpSrcDir ]; then
-  mkdir -p $phpSrcDir && cd $phpSrcDir
-else cd $phpSrcDir
-fi
-
-wget https://pecl.php.net/get/imagick
-tar -zxvf imagick
-cd imagick-3.4.3
-
-/usr/bin/phpize
-export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
-ln -s /usr/local/include/ImageMagick-7 /usr/local/include/ImageMagick
-./configure --prefix=/usr/local --with-imagick=/usr/local
-make -j 8 && make install
-
-echo "extension = /usr/local/php/lib/php/extensions/no-debug-non-zts-20170718/imagick.so" >> /usr/local/php/lib/php.ini
-
 systemctl daemon-reload
 
 systemctl start php-fpm && systemctl enable php-fpm
 
 phpEndTime=$(date +%s)
+
+cp /usr/local/php/bin/php /usr/sbin/php
 
 ###
 # MariaDB Install
@@ -477,4 +401,4 @@ apt install -y mariadb-server
 systemctl start mysql.service
 systemctl enable mysql.service
 
-sudo /usr/bin/mysql_secure_installation
+/usr/bin/mysql_secure_installation
