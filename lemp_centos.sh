@@ -19,21 +19,23 @@ echo "LEMP Auto Installer `date`"
 startTime=$(date +%s)
 wget='wget -qnc --tries=3'
 pkgname='lemp'
+SrcDir='/usr/local/src'
 nginxSrcDir='/usr/local/src/nginx'
 phpSrcDir='/usr/local/src/php'
-nginxVer='nginx-1.15.11' # [check nginx's site http://nginx.org/en/download.html for the latest version]
+nginxVer='nginx-1.17.3' # [check nginx's site http://nginx.org/en/download.html for the latest version]
 npsVer='1.13.35.2-stable' # [check https://www.modpagespeed.com/doc/release_notes for the latest version]
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server, stable release'
 arch=('i686' 'x86_64')
 url='https://nginx.org'
 license=('custom')
-depends=('pcre' 'zlib' 'openssl')
+depends=('pcre' 'zlib' 'openssl' 'libzip')
 pcre='pcre-8.42'
 zlib='zlib-1.2.11'
-openssl='openssl-1.1.1'
+openssl='openssl-1.1.1d'
 osslSrcDir='/usr/local/src/$openssl'
 fancyindex='0.4.3'
-phpVer='php-7.2.17'
+phpVer='php-7.3.9'
+libzip='libzip-1.5.2'
 cpuNum=$(cat /proc/cpuinfo | grep processor | wc -l)i
 
 # Setup Colours
@@ -64,8 +66,19 @@ yum --enablerepo=base clean metadata
 # yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 # subscription-manager repos --enable "rhel-*-optional-rpms" --enable "rhel-*-extras-rpms"
 yum -y update && yum -y install pcre-devel zlib-devel libuuid-devel perl-devel perl-ExtUtils-Embed libxslt libxslt-devel libxml2-devel gd gd-devel GeoIP-devel openssl-devel
-yum -y install yum-utils
+yum -y install yum-utils cmake3
 useradd --system --home /var/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
+
+ln -s /usr/bin/cmake3 /usr/bin/cmake
+
+yum -y remove libzip
+# Download, compile and install libzip
+cd $SrcDir
+$wget https://libzip.org/download/$libzip.tar.gz
+tar -zxf $libzip
+mkdir build && cd $_
+cmake3 ..
+make && make install
 
 # Create the source building directory and cd into it
 if [ ! -d $nginxSrcDir ]; then
