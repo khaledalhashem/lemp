@@ -30,7 +30,7 @@ zlib='zlib-1.2.11'
 openssl='openssl-1.1.1g'
 osslSrcDir='/usr/local/src/$openssl'
 fancyindex='0.4.3'
-phpVer='php-7.3.8'
+phpVer='php-7.3.18'
 cpuNum=$(cat /proc/cpuinfo | grep processor | wc -l)i
 
 
