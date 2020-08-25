@@ -75,9 +75,10 @@ yum -y remove libzip
 # Download, compile and install libzip
 cd $SrcDir
 $wget https://libzip.org/download/$libzip.tar.gz
-tar -zxf $libzip
+tar -zxf $libzip.tar.gz
+cd $libzip
 mkdir build && cd $_
-cmake3 ..
+cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local/libzip/1_5_2
 make && make install
 
 # Create the source building directory and cd into it
@@ -395,11 +396,12 @@ echo "LEMP Auto Installer `date`"
   echo "*************************************************"
 
 cat <<EOF >> /etc/yum.repos.d/MariaDB.repo
-# MariaDB 10.3 CentOS repository list
+# MariaDB 10.5 CentOS repository list - created 2020-08-25 05:16 UTC
 # http://downloads.mariadb.org/mariadb/repositories/
 [mariadb]
 name = MariaDB
-baseurl = http://yum.mariadb.org/10.3/centos7-amd64
+baseurl = http://yum.mariadb.org/10.5/centos8-amd64
+module_hotfixes=1
 gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
 EOF
